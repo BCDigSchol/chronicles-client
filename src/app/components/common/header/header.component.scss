@@ -1,0 +1,63 @@
+@use "sass:map";
+
+@import "../../../../styles-settings";
+
+// ensures header stays at top of screen
+:host mat-toolbar {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 9998;
+}
+
+// If the screen size is 1280px wide or more, set for large screen
+@media screen and (min-width: 1024px) {
+  :host h1 {
+    font-size: 1.25em;
+    font-family: $title-font;
+  }
+
+  :host .header-byline {
+    font-size: 0.8em;
+  }
+}
+  
+// If the screen size is 1024px wide or less and more than 640px, set for medium screen
+@media screen and (max-width: 1024px) and (min-width: 640px) {
+  :host h1 {
+    font-size: 1.1em;
+    font-family: $title-font;
+    line-height: 1.1em;
+  }
+
+  :host .header-byline {
+    font-size: 0.8em;
+    line-height: 0.8em;
+  }
+}
+
+// If the screen size is 640px wide or less, set for mobile
+@media screen and (max-width: 640px){
+  :host h1 {
+    font-size: 0.6em;
+    font-family: $title-font;
+    line-height: 1.0em;
+  }
+
+  :host .header-byline {
+    font-size: 0.42em;
+    line-height: 1.0em;
+  }
+}
+
+:host .nav-menu-toggle {
+  border-width: 1px;
+  border-color: white;
+  border-style: solid;
+  vertical-align: middle;
+}
+
+:host .nav-menu-toggle .mat-icon {
+  padding: 5px;
+  color: #FFFFFF;
+}

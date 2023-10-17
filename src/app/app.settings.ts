@@ -1,0 +1,11 @@
+// basic app settings
+export const Settings = {
+    // sets title information in the header
+    siteName: 'Chronicles Project',
+    byline: '',
+    // sets any links for the site itself
+    siteUrl: 'http://localhost:4200/',
+    // sets the url of the server API
+    apiUrl: 'http://localhost:8080/api/'
+  };
+  

@@ -1,0 +1,79 @@
+$mat-site-primary: (
+    50 : #edeaf4,
+    100 : #d1cae5,
+    200 : #b3a7d3,
+    300 : #9583c1,
+    400 : #7e69b4,
+    500 : #674ea7,
+    600 : #5f479f,
+    700 : #543d96,
+    800 : #4a358c,
+    900 : #39257c,
+    A100 : #cbbdff,
+    A200 : #a28aff,
+    A400 : #7a57ff,
+    A700 : #663dff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+$mat-site-accent: (
+    50 : #fef9f3,
+    100 : #fdefe1,
+    200 : #fce5ce,
+    300 : #fbdbba,
+    400 : #fad3ab,
+    500 : #f9cb9c,
+    600 : #f8c694,
+    700 : #f7be8a,
+    800 : #f6b880,
+    900 : #f5ac6e,
+    A100 : #ffffff,
+    A200 : #ffffff,
+    A400 : #ffffff,
+    A700 : #fff5ec,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+// setting typography information
+$body-typography: 'Roboto';
+$title-font: 'Special Elite';
+
+$error-color: #b32b2b;
+
+$error-msg-color: #d00;
+
+$error-msg-bg-color: #eee;
+
+$site-header-top-padding: 64px;
+$site-header-top-padding-mobile: 56px;
+$image-paginator-height: 100px;

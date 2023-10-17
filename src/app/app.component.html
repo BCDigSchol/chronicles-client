@@ -1,0 +1,16 @@
+<!-- contains site header and nav menu toggle button -->
+<app-header (navMenuToggle)="toggleNavMenu()"></app-header>
+<!-- using sidenav to hide/show nav menu -->
+<mat-drawer-container class="header-padding w-full h-full" autosize #sidenav>
+    <mat-drawer #drawer mode="side" position="end">
+        <app-nav-menu (navMenuSelected)="toggleNavMenu()"></app-nav-menu>
+    </mat-drawer>
+    <mat-drawer-content>
+        <!-- contains the main app state -->
+        <main class="h-full">
+            <router-outlet></router-outlet>
+        </main>
+    </mat-drawer-content>
+</mat-drawer-container>
+
+

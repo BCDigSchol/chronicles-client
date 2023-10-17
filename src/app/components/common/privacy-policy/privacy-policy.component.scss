@@ -1,0 +1,15 @@
+@import "../../../../styles-settings";
+
+// If the screen size is 1280px wide or more, set for large screen
+@media screen and (min-width: 640px) {
+    :host mat-card {
+        padding-top: $site-header-top-padding;
+    }
+  }
+  
+// If the screen size is 640px wide or less, set for mobile
+@media screen and (max-width: 640px){
+    :host mat-card {
+        padding-top: $site-header-top-padding-mobile;
+    }
+}

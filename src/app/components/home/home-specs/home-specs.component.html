@@ -1,0 +1,35 @@
+<!-- general project specs -->
+<mat-card>
+    <mat-card-title>Project Specifications</mat-card-title>
+    <mat-card-content>
+      <mat-list dense>
+        <mat-list-item *ngFor="let spec of specs.specs">
+          <span class="label"><strong>{{ spec.label }}:</strong></span>
+          <a [href]="safeUrl(spec.link)" target="_blank">{{ spec.value }}</a>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+  
+  <!-- project dependencies -->
+  <mat-card>
+    <mat-card-title>Project Modules</mat-card-title>
+    <mat-card-content>
+      <!-- frontend -->
+      <h3>Frontend:</h3>
+      <mat-list dense>
+        <mat-list-item *ngFor="let frontendDependency of specs.dependencies.frontend">
+          <a [href]="safeUrl(frontendDependency.link)" target="_blank">{{ frontendDependency.label }}</a>
+        </mat-list-item>
+      </mat-list>
+      <mat-divider></mat-divider>
+      <!-- developer -->
+      <h3>Developer:</h3>
+      <mat-list dense>
+        <mat-list-item *ngFor="let developerDependency of specs.dependencies.developer">
+          <a [href]="safeUrl(developerDependency.link)" target="_blank">{{ developerDependency.label }}</a>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+  

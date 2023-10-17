@@ -1,0 +1,15 @@
+<header>
+    <mat-toolbar class="w-full mat-elevation-z8 flex flex-row justify-start items-center" color="primary">
+        <!-- Site Header Info -->
+        <div class="w-full flex flex-col justify-center items-start" routerLink="home">
+            <h1>{{ settings.siteName }}<span *ngIf="settings.byline" class="max-lg:invisible">:&nbsp;</span></h1>
+            <div class="md:visible max-sm:invisible header-byline">{{ settings.byline }}</div>
+        </div>
+        <!-- button to open nav menu -->
+        <div class="nav-menu-toggle flex flex-col justify-center items-center" (click)="toggleNav()">
+            <mat-icon fontIcon="menu" aria-label="Open navigation menu"></mat-icon>
+        </div>
+    </mat-toolbar>
+</header>
+
+  

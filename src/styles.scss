@@ -1,0 +1,104 @@
+@use "sass:map";
+
+// include angular material styles
+@use '@angular/material' as mat;
+@include mat.core();
+
+/* You can add global styles to this file, and also import other style files */
+@tailwindbase
+@tailwindcomponents;
+@tailwind utilities;
+
+// import project styles settings
+@import "styles-settings";
+
+// import google material icons
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+
+// import google fonts
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Special+Elite&display=swap');
+
+// setting palette information
+$my-primary: mat.define-palette($mat-site-primary, 500);
+$my-accent: mat.define-palette($mat-site-accent, A200, A100, A400);
+
+$title-typography: mat.define-typography-level(32px, 32px, 600, $title-font);
+$headline-typography: mat.define-typography-level(26px, 26px, 600, $title-font);
+
+$my-typography: mat.define-typography-config(
+    $font-family: $body-typography,
+    $headline-1: $headline-typography,
+    $headline-2: $headline-typography,
+    $headline-3: $headline-typography,
+    $headline-4: $headline-typography,
+    $headline-5: $headline-typography,
+    $headline-6: $headline-typography,
+    $subtitle-1: $headline-typography,
+    $subtitle-2: $headline-typography,
+);
+
+$my-theme: mat.define-light-theme((
+ color: (
+   primary: $my-primary,
+   accent: $my-accent,
+ ),
+ typography: $my-typography
+));
+
+@include mat.all-component-themes($my-theme);
+
+html, body { height: 100%; }
+body {
+    background: radial-gradient(circle, rgba(238,238,230,1) 0%, rgba(247,247,243,1) 35%, rgba(255,255,255,1) 100%);
+    font-family: $body-typography;
+    padding: 0px;
+    margin: 0px;
+}
+
+a:link, a:visited {
+    color: map.get($mat-site-primary, A400);
+}
+  
+a:hover, a:active {
+    color: map.get($mat-site-accent, A400);
+}
+
+.has-dropcap:first-letter {
+    font-size: 6rem;
+    line-height: 0.65;
+    margin: 0.1em 0.1em 0.2em 0;
+    float: left;
+}
+
+// If the screen size is 1280px wide or more, set for large screen
+@media screen and (min-width: 1024px) {
+    mat-card {
+        padding: 20px;
+    }
+    
+    mat-card-content {
+        padding: 20px;
+    }
+  }
+    
+  // If the screen size is 1024px wide or less and more than 640px, set for medium screen
+  @media screen and (max-width: 1024px) and (min-width: 640px) {
+    mat-card {
+        padding: 10px;
+    }
+    
+    mat-card-content {
+        padding: 10px;
+    }
+  }
+  
+  // If the screen size is 640px wide or less, set for mobile
+  @media screen and (max-width: 640px){
+    mat-card {
+        padding: 5px;
+    }
+    
+    mat-card-content {
+        padding: 5px;
+    }
+}
