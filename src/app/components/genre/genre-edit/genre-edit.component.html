@@ -1,0 +1,44 @@
+<!-- loading messages -->
+<div *ngIf="loading" class="flex justify-center items-center h-full">
+    <div *ngIf="!loadingError" class="flex flex-col justify-center items-center">
+      <mat-spinner></mat-spinner>
+      <p>Loading</p>
+    </div>
+    <div *ngIf="loadingError" class="flex flex-col justify-center items-center">
+      <mat-icon class="red-text">error</mat-icon>
+      <p class="red-text">Error: problem connecting to server</p>
+    </div>
+  </div>
+  <div *ngIf="!loading" class="w-full h-full flex flex-col justify-start items-center">
+    <form class="w-full" #myform="ngForm" (ngSubmit)="onSubmit(myform)" *ngIf="user.role == 'Owner' || user.role == 'Editor'">
+      <mat-card class="m-2 lg:m-5 xl:m-5 2xl:m-5">
+        <mat-card-title class="w-full card-title">Edit Genre</mat-card-title>
+        <mat-card-content>
+          <div class="my-5 flex flex-col justify-start items-center">
+            <!-- title -->
+            <mat-form-field class="w-full" appearance="fill">
+              <mat-label>Genre</mat-label>
+              <input matInput type="text" name="genre" placeholder="Enter Genre" [(ngModel)]="protectedData.genre">
+            </mat-form-field>
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Notes</mat-label>
+                <textarea matInput name="notes" placeholder="Notes (optional)" [(ngModel)]="protectedData.notes"></textarea>
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+        <!-- error messages & edit button -->
+        <mat-card-actions>
+          <div class="w-full flex flex-col justify-center items-center">
+            <div *ngIf="errorMsgs.length > 0" class="error-msgs flex flex-col justify-start items-center">
+              <div *ngFor="let errorMsg of errorMsgs">Error: {{ errorMsg }}</div>
+            </div>
+            <div *ngIf="serverErrorMsgs.length > 0" class="error-msgs flex flex-col justify-start items-center">
+              <div *ngFor="let serverErrorMsg of serverErrorMsgs">Error: {{ serverErrorMsg }}</div>
+            </div>
+            <button class="w-full" mat-raised-button type="submit" color="primary" aria-label="Submit changes button"><mat-icon>edit</mat-icon> Submit Changes</button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  </div>
+  

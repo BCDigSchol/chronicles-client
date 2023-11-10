@@ -1,39 +1,37 @@
 <mat-card>
-    <mat-card-content>
-      <div class="title max-sm:text-sm">
-        <div *ngIf="isHidden" class="flex flex-row" (click)="toggleDisplay()" aria-label="Show filter">
-          <div class="w-full">Filter</div>
-          <mat-icon>arrow_drop_up</mat-icon>
-        </div>
-        <div *ngIf="!isHidden" class="flex flex-row" (click)="toggleDisplay()" aria-label="Hide filter">
-          <div class="w-full">Filter</div>
-          <mat-icon>arrow_drop_down</mat-icon>
+  <mat-card-content>
+    <div class="max-sm:text-sm">
+      <div *ngIf="isHidden" class="flex flex-row" (click)="toggleDisplay()" aria-label="Show filter">
+        <div class="w-full">Filter</div>
+        <mat-icon>arrow_drop_up</mat-icon>
+      </div>
+      <div *ngIf="!isHidden" class="flex flex-row" (click)="toggleDisplay()" aria-label="Hide filter">
+        <div class="w-full">Filter</div>
+        <mat-icon>arrow_drop_down</mat-icon>
+      </div>
+    </div>
+    <mat-divider *ngIf="!isHidden" class="w-full"></mat-divider>
+    <div *ngIf="!isHidden" class="w-full">
+      <!-- wide display -->
+      <div class="max-md:hidden flex flex-row justify-evenly items-center mt-2">
+        <mat-grid-list class="w-full" cols="7" rowHeight="3em">
+          <mat-grid-tile *ngFor="let field of fields">
+            <div class="w-full h-full flex flex-row justify-start items-center">
+              <label class="mx-2 text-xs" for="{{ field.keyword }} + 'Filter'"> {{ field.label }}: </label>
+              <input class="w-full" type="text" id="{{ field.keyword }} + 'Filter'" (input)="updateFilter()"  [(ngModel)]="protectedData[field.keyword]" />
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </div>
+      <!-- mobile display -->
+      <div class="md:hidden lg:hidden xl:hidden 2xl:hidden max-sm:text-xs flex flex-col justify-start items-start">
+        <div *ngFor="let field of fields" class="my-1">
+          <label for="{{ field.keyword }} + 'Filter'">
+            {{ field.label }}:
+          </label>
+          <input type="text" id="{{ field.keyword }} + 'Filter'" (input)="updateFilter()"  [(ngModel)]="protectedData[field.keyword]" />
         </div>
       </div>
-      <mat-divider *ngIf="!isHidden" class="w-full p-5"></mat-divider>
-      <div *ngIf="!isHidden" class="w-full">
-        <!-- wide display -->
-        <div class="max-sm:hidden flex flex-row justify-evenly items-center">
-          <div *ngFor="let field of fields" class="filter-input-wrapper">
-            <label for="{{ field.keyword }} + 'Filter'"> {{ field.label }}: </label>
-            <input type="text" id="{{ field.keyword }} + 'Filter'" (input)="updateFilter()"  [(ngModel)]="protectedData[field.keyword]" />
-          </div>
-        </div>
-        <!-- mobile display -->
-        <table class="sm:hidden md:hidden lg:hidden xl:hidden 2xl:hidden table-auto border-collapse max-sm:text-xs">
-          <tbody>
-            <tr *ngFor="let field of fields">
-              <td>
-                <label for="{{ field.keyword }} + 'Filter'">
-                  {{ field.label }}:
-                </label>
-              </td>
-              <td>
-                <input type="text" id="{{ field.keyword }} + 'Filter'" (input)="updateFilter()"  [(ngModel)]="protectedData[field.keyword]" />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </mat-card-content>
+    </div>
+  </mat-card-content>
 </mat-card>

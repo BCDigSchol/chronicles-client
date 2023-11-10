@@ -1,0 +1,128 @@
+<!-- loading messages -->
+<div *ngIf="loading" class="flex justify-center items-center h-full">
+    <div *ngIf="!loadingError" class="flex flex-col justify-center items-center">
+      <mat-spinner></mat-spinner>
+      <p>Loading</p>
+    </div>
+    <div *ngIf="loadingError" class="flex flex-col justify-center items-center">
+      <mat-icon class="red-text">error</mat-icon>
+      <p class="red-text">Error: problem connecting to server</p>
+    </div>
+  </div>
+  <div *ngIf="!loading" class="w-full h-full flex flex-col justify-start items-center">
+    <div class="w-full">
+      <mat-card class="m-5">
+        <mat-card-content>
+          <div class="flex flex-col justify-start items-center">
+            <!-- title -->
+            <mat-card-title *ngIf="protectedData.label == ''" class="w-full card-title">{{ protectedData.otherNames + ' ' + protectedData.surname }}</mat-card-title>
+            <mat-card-title *ngIf="protectedData.label != ''" class="w-full card-title">{{ protectedData.label }}</mat-card-title>
+            <!-- edit / delete buttons -->
+            <div class="w-full flex flex-row justify-center items-center" *ngIf="user.role == 'Owner' || user.role == 'Editor'">
+                <button class="w-full" routerLink="{{'/authors/edit/' + protectedData.id}}" color="accent" mat-raised-button aria-label="Edit genre">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button class="icon-button" (click)="deleteItem()" color="warn" mat-raised-button aria-label="Delete genre">
+                    <span class="icon-wrapper">
+                        <mat-icon>delete_forever</mat-icon>
+                    </span>
+                </button>
+            </div>
+            <mat-grid-list class="flex w-full mt-5 max-sm:text-xs text-base text-center" cols="3" rowHeight="3em">
+              <mat-grid-tile class="grid-bg">
+                <div class="flex flex-col justify-center items-center" [routerLink]="'/authors'" [queryParams]="{ surname: protectedData.surname }">
+                  <div>Surname:</div>
+                  <div>{{ protectedData.surname }} </div>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile class="grid-bg">
+                <div class="flex flex-col justify-center items-center" [routerLink]="'/authors'" [queryParams]="{ maidenName: protectedData.maidenName }">
+                  <div>Maiden Name:</div>
+                  <div>{{ protectedData.maidenName }} </div>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile class="grid-bg">
+                <div class="flex flex-col justify-center items-center" [routerLink]="'/authors'" [queryParams]="{ otherNames: protectedData.otherNames }">
+                  <div>Other Names:</div>
+                  <div>{{ protectedData.otherNames }} </div>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile class="grid-bg">
+                <div class="flex flex-col justify-center items-center" [routerLink]="'/authors'" [queryParams]="{ label: protectedData.label }">
+                  <div>Custom Name:</div>
+                  <div>{{ protectedData.label }} </div>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile class="grid-bg">
+                <div class="flex flex-col justify-center items-center" [routerLink]="'/authors'" [queryParams]="{ gender: protectedData.gender }">
+                  <div>Gender:</div>
+                  <div>{{ protectedData.gender }} </div>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile class="grid-bg">
+                <div class="flex flex-col justify-center items-center" [routerLink]="'/authors'" [queryParams]="{ nationality: protectedData.nationality }">
+                  <div>Nationality:</div>
+                  <div>{{ protectedData.nationality }} </div>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile *ngIf="protectedData.specificNationality" class="grid-bg">
+                <div class="flex flex-col justify-center items-center" [routerLink]="'/authors'" [queryParams]="{ specificNationality: protectedData.specificNationality }">
+                  <div>Specific Nationality:</div>
+                  <div>{{ protectedData.specificNationality }} </div>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile *ngIf="protectedData.nonPerson" class="grid-bg">
+                <div class="flex flex-col justify-center items-center">
+                  <div>Non-Person:</div>
+                  <div>{{ protectedData.nonPerson }} </div>
+                </div>
+              </mat-grid-tile>
+            </mat-grid-list>
+            <!-- any notes (optional) -->
+            <div class="w-full flex flex-col justify-start items-center">
+                <div class="w-full my-5 light-border flex flex-row justify-start items-center" *ngIf="(user.role == 'Owner' || user.role == 'Editor') && (protectedData.notes != null && protectedData.notes != '')">
+                    <span class="m-5">
+                        Notes:
+                    </span>
+                    <span class="m-5">
+                        {{ protectedData.notes }}
+                    </span>
+                </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <!-- publications -->
+      <mat-card *ngIf="protectedData.publications.length > 0" class="m-5">
+        <mat-card-content>
+          <div (click)="toggleDisplay.publications = !toggleDisplay.publications" class="w-full flex flex-row">
+            <span class="flex grow">Publications:</span>
+            <button class="icon-button" type="button" color="primary" mat-raised-button aria-label="Show/Hide Publications">
+                <span class="icon-wrapper">
+                    <mat-icon *ngIf="toggleDisplay.publications">keyboard_arrow_down</mat-icon>
+                    <mat-icon *ngIf="!toggleDisplay.publications">keyboard_arrow_up</mat-icon>
+                </span>
+            </button>
+          </div>
+          <div *ngIf="toggleDisplay.publications" class="w-full">
+            <mat-card class="m-5" routerLink="/publications/{{ publication.id }}" *ngFor="let publication of protectedData.publications">
+              <mat-card-content>
+                <div class="flex flex-col justify-start items-start">
+                  <mat-card-subtitle class="w-full">
+                    <span>{{ publication.title }}</span>
+                    <span *ngIf="publication.AuthorOfPublications.publishedHonorific != '' || publication.AuthorOfPublications.publishedName != ''">
+                      (as 
+                        <span *ngIf="publication.AuthorOfPublications.publishedHonorific != ''">{{ publication.AuthorOfPublications.publishedHonorific }} </span>
+                        <span *ngIf="publication.AuthorOfPublications.publishedName != ''">{{ publication.AuthorOfPublications.publishedName }}</span>
+                      )
+                    </span>
+                  </mat-card-subtitle>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  

@@ -1,5 +1,5 @@
 <nav aria-label="Main">
-    <div class="nav-wrapper w-full h-max flex flex-col justify-around items-center nav-menu p-1">
+    <div class="nav-wrapper w-full h-full flex flex-col justify-around items-center nav-menu">
         <div class="w-full" *ngFor="let menuLink of menuLinks">
             <ng-container *ngIf="menuLink.requiresLogin == false || this.user.loggedIn">
                 <ng-container *ngIf="menuLink.requiresEditor == false || (this.user.role == 'Owner' || this.user.role == 'Editor')">

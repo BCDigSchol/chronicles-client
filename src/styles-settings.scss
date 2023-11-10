@@ -1,23 +1,23 @@
 $mat-site-primary: (
-    50 : #edeaf4,
-    100 : #d1cae5,
-    200 : #b3a7d3,
-    300 : #9583c1,
-    400 : #7e69b4,
-    500 : #674ea7,
-    600 : #5f479f,
-    700 : #543d96,
-    800 : #4a358c,
-    900 : #39257c,
-    A100 : #cbbdff,
-    A200 : #a28aff,
-    A400 : #7a57ff,
-    A700 : #663dff,
+    50 : #e1e3e5,
+    100 : #b5babe,
+    200 : #838c93,
+    300 : #515d68,
+    400 : #2c3b47,
+    500 : #071827,
+    600 : #061523,
+    700 : #05111d,
+    800 : #040e17,
+    900 : #02080e,
+    A100 : #5196ff,
+    A200 : #1e78ff,
+    A400 : #005dea,
+    A700 : #0053d0,
     contrast: (
         50 : #000000,
         100 : #000000,
         200 : #000000,
-        300 : #000000,
+        300 : #ffffff,
         400 : #ffffff,
         500 : #ffffff,
         600 : #ffffff,
@@ -25,27 +25,27 @@ $mat-site-primary: (
         800 : #ffffff,
         900 : #ffffff,
         A100 : #000000,
-        A200 : #000000,
+        A200 : #ffffff,
         A400 : #ffffff,
         A700 : #ffffff,
     )
 );
 
 $mat-site-accent: (
-    50 : #fef9f3,
-    100 : #fdefe1,
-    200 : #fce5ce,
-    300 : #fbdbba,
-    400 : #fad3ab,
-    500 : #f9cb9c,
-    600 : #f8c694,
-    700 : #f7be8a,
-    800 : #f6b880,
-    900 : #f5ac6e,
+    50 : #fffdf5,
+    100 : #fffbe7,
+    200 : #fff8d7,
+    300 : #fff5c6,
+    400 : #fff3ba,
+    500 : #fff1ae,
+    600 : #ffefa7,
+    700 : #ffed9d,
+    800 : #ffeb94,
+    900 : #ffe784,
     A100 : #ffffff,
     A200 : #ffffff,
     A400 : #ffffff,
-    A700 : #fff5ec,
+    A700 : #ffffff,
     contrast: (
         50 : #000000,
         100 : #000000,
@@ -56,7 +56,7 @@ $mat-site-accent: (
         600 : #000000,
         700 : #000000,
         800 : #000000,
-        900 : #ffffff,
+        900 : #000000,
         A100 : #000000,
         A200 : #000000,
         A400 : #000000,
@@ -65,8 +65,8 @@ $mat-site-accent: (
 );
 
 // setting typography information
-$body-typography: 'Roboto';
-$title-font: 'Special Elite';
+$body-typography: 'Montserrat';
+$title-font: 'Noto Sans';
 
 $error-color: #b32b2b;
 
@@ -75,5 +75,4 @@ $error-msg-color: #d00;
 $error-msg-bg-color: #eee;
 
 $site-header-top-padding: 64px;
-$site-header-top-padding-mobile: 56px;
-$image-paginator-height: 100px;
+$site-header-top-padding-mobile: 50px;

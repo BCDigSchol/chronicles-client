@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ApiService } from './../../services/api.service';
 import { AuthService } from './../../services/auth.service';
@@ -22,7 +23,8 @@ export class ProfileComponent implements OnInit {
     private _api: ApiService,
     private _auth: AuthService,
     private _user: UserService,
-    private _router: Router
+    private _router: Router,
+    private _snackBar: MatSnackBar
   ) { }
 
   /**
@@ -32,11 +34,14 @@ export class ProfileComponent implements OnInit {
     // get stored user information for username
     const userDetails = JSON.parse(this._auth.getUserDetails()!);
     // get updated user information from server
-    this._api.getTypeRequest('profile/' + userDetails.username).subscribe((res: any) => {
-      this.protectedData = res.data;
-      this.loading = false;
-    }, (error: any) => {
-      this.loadingError = true;
+    this._api.getTypeRequest('profile/' + userDetails.username).subscribe({
+      next: (res: any) => {
+        this.protectedData = res.data;
+        this.loading = false;
+      },
+      error: (error: any) => {
+        this.loadingError = true;
+      }
     });
   }
 
@@ -46,6 +51,7 @@ export class ProfileComponent implements OnInit {
   logout() {
     this._auth.clearStorage();
     this._user.logout();
+    this._snackBar.open('Successfully logged out!', '', { duration: 2000 });
     this._router.navigate(['']);
   }
 

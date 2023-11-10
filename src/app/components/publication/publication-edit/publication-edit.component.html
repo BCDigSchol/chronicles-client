@@ -1,0 +1,203 @@
+<!-- loading messages -->
+<div *ngIf="loading" class="flex justify-center items-center h-full">
+    <div *ngIf="!loadingError" class="flex flex-col justify-center items-center">
+      <mat-spinner></mat-spinner>
+      <p>Loading</p>
+    </div>
+    <div *ngIf="loadingError" class="flex flex-col justify-center items-center">
+      <mat-icon class="red-text">error</mat-icon>
+      <p class="red-text">Error: problem connecting to server</p>
+    </div>
+  </div>
+  <div *ngIf="!loading" class="w-full h-full flex flex-col justify-start items-center">
+    <form class="w-full" #myform="ngForm" (ngSubmit)="onSubmit(myform)" *ngIf="user.role == 'Owner' || user.role == 'Editor'">
+      <mat-card class="m-2 lg:m-5 xl:m-5 2xl:m-5">
+        <mat-card-title class="w-full card-title">Edit Publication</mat-card-title>
+        <mat-card-content>
+          <div class="my-5 flex flex-col justify-start items-center">
+            <!-- title -->
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Title</mat-label>
+                <input matInput type="text" name="title" placeholder="Enter Title" [(ngModel)]="protectedData.title">
+            </mat-form-field>
+            <!-- subtitle -->
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Subtitle</mat-label>
+                <input matInput type="text" name="subtitle" placeholder="Enter Subtitle" [(ngModel)]="protectedData.subtitle">
+            </mat-form-field>
+            <!-- subtitle -->
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Setting Name</mat-label>
+                <input matInput type="text" name="settingName" placeholder="Enter Setting Name" [(ngModel)]="protectedData.settingName">
+            </mat-form-field>
+
+            <!-- setting category -->
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Setting Category</mat-label>
+                <mat-select [(value)]="protectedData.settingCategory">
+                <mat-option *ngFor="let possibleSettingCategory of selectionOptions.setting" [value]="possibleSettingCategory">{{ possibleSettingCategory }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- period -->
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Period</mat-label>
+                <mat-select [(value)]="protectedData.period">
+                <mat-option *ngFor="let possiblePeriod of selectionOptions.period" [value]="possiblePeriod">{{ possiblePeriod }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- time scale -->
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Time Scale</mat-label>
+                <mat-select [(value)]="protectedData.timeScale">
+                <mat-option *ngFor="let possibleTimeScale of selectionOptions.timeScale" [value]="possibleTimeScale">{{ possibleTimeScale }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- protagonist category -->
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Protagonist Category</mat-label>
+                <mat-select [(value)]="protectedData.protagonistCategory">
+                <mat-option *ngFor="let possibleProtagonistCategory of selectionOptions.protagonistCategory" [value]="possibleProtagonistCategory">{{ possibleProtagonistCategory }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- protagonist group type -->
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Protagonist Group</mat-label>
+                <mat-select [(value)]="protectedData.protagonistGroupType">
+                <mat-option *ngFor="let possibleProtagonistGroupType of selectionOptions.protagonistGroupType" [value]="possibleProtagonistGroupType">{{ possibleProtagonistGroupType }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- notes -->
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Notes</mat-label>
+                <textarea matInput name="notes" placeholder="Notes (optional)" ngModel></textarea>
+            </mat-form-field>
+
+            <!-- authors -->
+            <h3>Authors</h3>
+            <div class="flex flex-row justify-start items-start">
+              <mat-list class="w-full" aria-label="Linked authors">
+                <mat-list-item *ngFor="let author of this.protectedData.authors">
+                  <div class="flex flex-row justify-start items-center">
+                    <span class="m-2">
+                      <span *ngIf="author.label == ''" class="w-full">
+                        <span>{{ author.otherNames + ' ' + author.surname }}</span>
+                        <span *ngIf="author.AuthorOfPublications.publishedHonorific != '' || author.AuthorOfPublications.publishedName != ''">
+                          (as 
+                            <span *ngIf="author.AuthorOfPublications.publishedHonorific != ''">{{ author.AuthorOfPublications.publishedHonorific }} </span>
+                            <span *ngIf="author.AuthorOfPublications.publishedName != ''">{{ author.AuthorOfPublications.publishedName }}</span>
+                          )
+                        </span>
+                      </span>
+                      <span *ngIf="author.label != ''" class="w-full">
+                        <span>{{ author.label }}</span>
+                        <span *ngIf="author.AuthorOfPublications.publishedHonorific != '' || author.AuthorOfPublications.publishedName != ''">
+                          (as 
+                            <span *ngIf="author.AuthorOfPublications.publishedHonorific != ''">{{ author.AuthorOfPublications.publishedHonorific }} </span>
+                            <span *ngIf="author.AuthorOfPublications.publishedName != ''">{{ author.AuthorOfPublications.publishedName }}</span>
+                          )
+                        </span>
+                      </span>
+                    </span>
+                    <span class="m-2 icon-button">
+                      <span class="icon-wrapper">
+                        <mat-icon (click)="removeAuthor(author.id)">cancel</mat-icon>
+                      </span>
+                    </span>
+                  </div>
+                </mat-list-item>
+              </mat-list>
+            </div>
+            <span class="w-full my-5">
+              <button mat-raised-button class="w-full" *ngIf="!linkedItems.authors.displayLink" (click)="linkedItems.authors.displayLink = !linkedItems.authors.displayLink" aria-label="Link author">
+                <mat-icon>link</mat-icon> Link An Author
+              </button>
+              <button mat-raised-button class="w-full" *ngIf="linkedItems.authors.displayLink" (click)="linkedItems.authors.displayLink = !linkedItems.authors.displayLink" aria-label="Cancel link author">
+                <mat-icon>cancel</mat-icon>Cancel Link Author
+              </button>
+            </span>
+            <div class="px-5 w-full" *ngIf="linkedItems.authors.displayLink">
+              <app-author-select class="w-full" (successfullyAdded)="linkAuthor($event)"></app-author-select>
+            </div>
+
+            <!-- genres -->
+            <h3>Genres</h3>
+            <div class="flex flex-row justify-start items-start">
+              <mat-list class="w-full" aria-label="Linked genres">
+                <mat-list-item *ngFor="let genre of this.protectedData.genres">
+                  <div class="flex flex-row justify-start items-center">
+                    <span class="m-2">
+                      {{ genre.genre }}
+                    </span>
+                    <span class="m-2 icon-button">
+                      <span class="icon-wrapper">
+                        <mat-icon (click)="removeGenre(genre.id)">cancel</mat-icon>
+                      </span>
+                    </span>
+                  </div>
+                </mat-list-item>
+              </mat-list>
+            </div>
+            <span class="w-full my-5">
+              <button mat-raised-button class="w-full" *ngIf="!linkedItems.genres.displayLink" (click)="linkedItems.genres.displayLink = !linkedItems.genres.displayLink" aria-label="Link genre">
+                <mat-icon>link</mat-icon> Link A Genre
+              </button>
+              <button mat-raised-button class="w-full" *ngIf="linkedItems.genres.displayLink" (click)="linkedItems.genres.displayLink = !linkedItems.genres.displayLink" aria-label="Cancel link genre">
+                <mat-icon>cancel</mat-icon>Cancel Link Genre
+              </button>
+            </span>
+            <div class="px-5 w-full" *ngIf="linkedItems.genres.displayLink">
+              <app-genre-select class="w-full" (successfullyAdded)="linkGenre($event)"></app-genre-select>
+            </div>
+
+            <!-- narrations -->
+            <h3>Narration Styles</h3>
+            <div class="flex flex-row justify-start items-start">
+              <mat-list class="w-full" aria-label="Linked narration styles">
+                <mat-list-item *ngFor="let narration of this.protectedData.narrations">
+                  <div class="flex flex-row justify-start items-center">
+                    <span class="m-2">
+                      {{ narration.narration }}
+                    </span>
+                    <span class="m-2 icon-button">
+                      <span class="icon-wrapper">
+                        <mat-icon (click)="removeNarration(narration.id)">cancel</mat-icon>
+                      </span>
+                    </span>
+                  </div>
+                </mat-list-item>
+              </mat-list>
+            </div>
+            <span class="w-full my-5">
+              <button mat-raised-button class="w-full" *ngIf="!linkedItems.narrations.displayLink" (click)="linkedItems.narrations.displayLink = !linkedItems.narrations.displayLink" aria-label="Link narration style">
+                <mat-icon>link</mat-icon> Link A Narration Style
+              </button>
+              <button mat-raised-button class="w-full" *ngIf="linkedItems.narrations.displayLink" (click)="linkedItems.narrations.displayLink = !linkedItems.narrations.displayLink" aria-label="Cancel link narration style">
+                <mat-icon>cancel</mat-icon>Cancel Link Narration Style
+              </button>
+            </span>
+            <div class="px-5 w-full" *ngIf="linkedItems.narrations.displayLink">
+              <app-narration-select class="w-full" (successfullyAdded)="linkNarration($event)"></app-narration-select>
+            </div>
+          </div>
+        </mat-card-content>
+        <!-- error messages & edit button -->
+        <mat-card-actions>
+          <div class="w-full flex flex-col justify-center items-center">
+            <div *ngIf="errorMsgs.length > 0" class="error-msgs flex flex-col justify-start items-center">
+              <div *ngFor="let errorMsg of errorMsgs">Error: {{ errorMsg }}</div>
+            </div>
+            <div *ngIf="serverErrorMsgs.length > 0" class="error-msgs flex flex-col justify-start items-center">
+              <div *ngFor="let serverErrorMsg of serverErrorMsgs">Error: {{ serverErrorMsg }}</div>
+            </div>
+            <button class="w-full" mat-raised-button type="submit" color="primary" aria-label="Submit changes button"><mat-icon>edit</mat-icon> Submit Changes</button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  </div>
+  

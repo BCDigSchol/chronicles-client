@@ -1,0 +1,88 @@
+<!-- loading messages -->
+<div *ngIf="loading" class="flex justify-center items-center h-full">
+    <div *ngIf="!loadingError" class="flex flex-col justify-center items-center">
+      <mat-spinner></mat-spinner>
+      <p>Loading</p>
+    </div>
+    <div *ngIf="loadingError" class="flex flex-col justify-center items-center">
+      <mat-icon class="red-text">error</mat-icon>
+      <p class="red-text">Error: problem connecting to server</p>
+    </div>
+  </div>
+  <div *ngIf="!loading" class="w-full h-full flex flex-col justify-start items-center">
+    <form class="w-full" #myform="ngForm" (ngSubmit)="onSubmit(myform)" *ngIf="user.role == 'Owner' || user.role == 'Editor'">
+      <mat-card class="m-2 lg:m-5 xl:m-5 2xl:m-5">
+        <mat-card-title class="card-subtitle">Edit Author</mat-card-title>
+        <mat-card-content>
+          <div class="my-5 flex flex-col justify-start items-center">
+            <!-- surname -->
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Surname</mat-label>
+                <input matInput type="text" name="surname" placeholder="Enter Surname" [(ngModel)]="protectedData.surname">
+            </mat-form-field>
+            <!-- maiden name -->
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Maiden Name</mat-label>
+                <input matInput type="text" name="maidenName" placeholder="Enter Maiden Name" [(ngModel)]="protectedData.maidenName">
+            </mat-form-field>
+            <!-- other names -->
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Other Names</mat-label>
+                <input matInput type="text" name="otherNames" placeholder="Enter Other Names" [(ngModel)]="protectedData.otherNames">
+            </mat-form-field>
+            <!-- custom display name -->
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Custom Display Name (Optional)</mat-label>
+                <input matInput type="text" name="label" placeholder="Enter Display Name" [(ngModel)]="protectedData.label">
+            </mat-form-field>
+            <!-- gender -->
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Gender</mat-label>
+                <mat-select [(value)]="protectedData.gender">
+                <mat-option *ngFor="let gender of selectionOptions.gender" [value]="gender">{{ gender }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!-- nationality -->
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Nationality</mat-label>
+                <mat-select [(value)]="protectedData.nationality">
+                <mat-option *ngFor="let nationality of selectionOptions.nationality" [value]="nationality">{{ nationality }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!-- specific nationality -->
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Specific Nationality</mat-label>
+                <mat-select [(value)]="protectedData.specificNationality">
+                <mat-option *ngFor="let specificNationality of selectionOptions.specificNationality" [value]="specificNationality">{{ specificNationality }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!-- non-person -->
+            <mat-form-field class="w-full" appearance="fill">
+              <mat-label>Non-Person?</mat-label>
+              <mat-select [(value)]="protectedData.nonPerson">
+                <mat-option *ngFor="let nonPersonhood of selectionOptions.nonPerson" [value]="nonPersonhood">{{ nonPersonhood }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!-- notes -->
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Notes</mat-label>
+                <textarea matInput name="notes" placeholder="Notes (optional)" ngModel></textarea>
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+        <!-- error messages & edit button -->
+        <mat-card-actions>
+          <div class="w-full flex flex-col justify-center items-center">
+            <div *ngIf="errorMsgs.length > 0" class="error-msgs flex flex-col justify-start items-center">
+              <div *ngFor="let errorMsg of errorMsgs">Error: {{ errorMsg }}</div>
+            </div>
+            <div *ngIf="serverErrorMsgs.length > 0" class="error-msgs flex flex-col justify-start items-center">
+              <div *ngFor="let serverErrorMsg of serverErrorMsgs">Error: {{ serverErrorMsg }}</div>
+            </div>
+            <button class="w-full" mat-raised-button type="submit" color="primary" aria-label="Submit changes button"><mat-icon>edit</mat-icon> Submit Changes</button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  </div>
+  

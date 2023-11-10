@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ApiService } from './../../../services/api.service';
 import { AuthService } from './../../../services/auth.service';
@@ -24,7 +25,8 @@ export class RegisterComponent implements OnInit {
     private _api: ApiService,
     private _auth: AuthService,
     private _user: UserService,
-    private _router: Router
+    private _router: Router,
+    private _snackBar: MatSnackBar
   ) { }
 
   /**
@@ -36,9 +38,9 @@ export class RegisterComponent implements OnInit {
     this.isUserLogin();
     // get observable & set behavior on change
     this.userDetails$ = this._user.user$;
-    this.userDetails$.subscribe(result => {
+    this.userDetails$.subscribe({ next:result => {
       this.user = result;
-    });
+    }});
   }
 
   /**
@@ -54,26 +56,35 @@ export class RegisterComponent implements OnInit {
       this.showErrorMessage = true;
     }
     else {
-      this._api.postTypeRequest('user/register', form.value).subscribe((res: any) => {
-        // if successful
-        if (res.status) {
-          // store data in local browser storage for later sessions
-          this._auth.setDataInLocalStorage('userData', JSON.stringify(res.data));
-          // store JWT auth token provided by the server
-          this._auth.setDataInLocalStorage('token', res.token);
-          // store user data in user service for use by application components
-          this._user.login({
-            username: res.data.username,
-            email: res.data.email,
-            role: res.data.role,
-            token: res.token
-          });
-          // navigate home
-          this._router.navigate(['']);
-        }
-        // send error messages
-        else {
-          this.errorMessage = res.message;
+      this._api.postTypeRequest('user/register', form.value).subscribe({
+        next: (res: any) => {
+          // if successful
+          if (res.status) {
+            // store data in local browser storage for later sessions
+            this._auth.setDataInLocalStorage('userData', JSON.stringify(res.data));
+            // store JWT auth token provided by the server
+            this._auth.setDataInLocalStorage('token', res.token);
+            // store user data in user service for use by application components
+            this._user.login({
+              username: res.data.username,
+              email: res.data.email,
+              role: res.data.role,
+              token: res.token
+            });
+            // navigate home
+            this._snackBar.open('Successfully registered!', '', { duration: 2000 });
+            this._router.navigate(['']);
+          }
+          // send error messages
+          else {
+            this._snackBar.open('Problem registering!', '', { duration: 5000 });
+            this.errorMessage = res.message;
+            this.showErrorMessage = true;
+          }
+        },
+        error: (error: any) => {
+          this._snackBar.open('Problem registering, server may be down!', '', { duration: 5000 });
+          this.errorMessage = 'Server May Be Down';
           this.showErrorMessage = true;
         }
       });

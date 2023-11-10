@@ -1,0 +1,7 @@
+<div class="w-full h-full">
+    <app-genre-list></app-genre-list>
+    <button class="add-button-container m-1" *ngIf="user.role == 'Owner' || user.role == 'Editor'" color="primary" routerLink="/genres/add" mat-fab aria-label="Add new genre">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
+

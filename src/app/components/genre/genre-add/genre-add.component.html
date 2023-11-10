@@ -1,0 +1,33 @@
+<div *ngIf="!loading" class="w-full h-full flex flex-col justify-start items-center">
+    <form class="w-full" #myform="ngForm" (ngSubmit)="onSubmit(myform)" *ngIf="user.role == 'Owner' || user.role == 'Editor'">
+      <mat-card class="m-2 lg:m-5 xl:m-5 2xl:m-5">
+        <mat-card-title class="w-full card-title">Add New Genre</mat-card-title>
+        <mat-card-content>
+          <div class="flex flex-col justify-start items-center my-5">
+            <!-- title -->
+            <mat-form-field class="w-full" appearance="fill">
+              <mat-label>Title</mat-label>
+              <input matInput type="text" name="genre" placeholder="Enter Genre" ngModel>
+            </mat-form-field>
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Notes</mat-label>
+                <textarea matInput name="notes" placeholder="Notes (optional)" ngModel></textarea>
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+        <!-- error messages & add button -->
+        <mat-card-actions>
+          <div class="w-full flex flex-col justify-center items-center">
+            <div *ngIf="errorMsgs.length > 0" class="error-msgs flex flex-col justify-center items-start">
+              <div *ngFor="let errorMsg of errorMsgs">Error: {{ errorMsg }}</div>
+            </div>
+            <div *ngIf="serverErrorMsgs.length > 0" class="error-msgflex flex-col justify-center items-start">
+              <div *ngFor="let serverErrorMsg of serverErrorMsgs">Error: {{ serverErrorMsg }}</div>
+            </div>
+            <button mat-raised-button class="w-full" type="submit" color="primary" aria-label="Add genre button"><mat-icon >add</mat-icon> Add Genre</button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  </div>
+  

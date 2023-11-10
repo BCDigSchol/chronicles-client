@@ -1,0 +1,9 @@
+<div class="w-full h-full">
+    <div class="mt-2 mx-5">
+      <button class="w-full" type="button" routerLink="/publications" color="primary" mat-raised-button aria-label="Back to view publications">
+        <mat-icon>keyboard_arrow_up</mat-icon>
+      </button>
+    </div>
+    <app-publication-add (successfullyAdded)="itemAdded($event)"></app-publication-add>
+</div>
+  

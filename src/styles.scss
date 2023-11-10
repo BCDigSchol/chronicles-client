@@ -16,7 +16,7 @@
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
 // import google fonts
-@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Special+Elite&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Noto+Sans:wght@500&display=swap');
 
 // setting palette information
 $my-primary: mat.define-palette($mat-site-primary, 500);
@@ -70,35 +70,106 @@ a:hover, a:active {
     float: left;
 }
 
+.light-border {
+    border-style: solid;
+    border-width: 1px;
+    border-color: map.get($mat-site-primary, 400);
+}
+
+.icon-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+.icon-wrapper {
+    display: flex;
+    align-items: center;
+    margin: 0 4px;
+}
+
+.grid-bg {
+    background-color: #b8bfc1;
+  }
+
 // If the screen size is 1280px wide or more, set for large screen
 @media screen and (min-width: 1024px) {
     mat-card {
-        padding: 20px;
+        padding: 10px;
     }
     
     mat-card-content {
-        padding: 20px;
+        padding: 10px;
+    }
+
+    // accent color for titles and subtitles of cards
+    .card-title {
+        background-color: map.get($mat-site-accent, 900);
+        color: map.get($mat-site-accent, 'contrast', 50);
+        padding: 10px 5px 10px 5px;
+        font-family: $title-font;
+    }
+
+    .card-subtitle {
+        background-color: map.get($mat-site-accent, 900);
+        color: map.get($mat-site-accent, 'contrast', 50);
+        padding: 10px 5px 10px 5px;
+        font-family: $title-font;
     }
   }
     
   // If the screen size is 1024px wide or less and more than 640px, set for medium screen
   @media screen and (max-width: 1024px) and (min-width: 640px) {
     mat-card {
-        padding: 10px;
+        padding: 5px;
     }
     
     mat-card-content {
-        padding: 10px;
+        padding: 5px;
+    }
+
+    // accent color for titles and subtitles of cards
+    .card-title {
+        background-color: map.get($mat-site-accent, 900);
+        color: map.get($mat-site-accent, 'contrast', 50);
+        padding: 10px 5px 10px 5px;
+        font-family: $title-font;
+        font-size: .9em !important;
+    }
+
+    .card-subtitle {
+        background-color: map.get($mat-site-accent, 900);
+        color: map.get($mat-site-accent, 'contrast', 50);
+        padding: 10px 5px 10px 5px;
+        font-family: $title-font;
+        font-size: .9em !important;
     }
   }
   
   // If the screen size is 640px wide or less, set for mobile
   @media screen and (max-width: 640px){
     mat-card {
-        padding: 5px;
+        padding: 2px;
     }
     
     mat-card-content {
-        padding: 5px;
+        padding: 2px;
+    }
+
+    // accent color for titles and subtitles of cards
+    .card-title {
+        background-color: map.get($mat-site-accent, 900);
+        color: map.get($mat-site-accent, 'contrast', 50);
+        padding: 5px 5px 5px 5px;
+        font-family: $title-font;
+        font-size: .7em !important;
+    }
+
+    .card-subtitle {
+        background-color: map.get($mat-site-accent, 900);
+        color: map.get($mat-site-accent, 'contrast', 50);
+        padding: 5px 5px 5px 5px;
+        font-family: $title-font;
+        font-size: .7em !important;
     }
 }

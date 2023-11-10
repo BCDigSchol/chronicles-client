@@ -1,0 +1,119 @@
+<!-- loading messages -->
+<div *ngIf="loading" class="flex justify-center items-center h-full">
+    <div *ngIf="!loadingError" class="flex flex-col justify-center items-center">
+      <mat-spinner></mat-spinner>
+      <p>Loading</p>
+    </div>
+    <div *ngIf="loadingError" class="flex flex-col justify-center items-center">
+      <mat-icon class="red-text">error</mat-icon>
+      <p class="red-text">Error: problem connecting to server</p>
+    </div>
+  </div>
+  <div *ngIf="!loading" class="w-full h-full flex flex-col justify-start items-center">
+    <div class="w-full">
+      <mat-card class="m-5">
+        <mat-card-content>
+          <div class="flex flex-col justify-start items-center">
+            <!-- title -->
+            <mat-card-title class="w-full card-subtitle">
+                <span>{{ protectedData.title }}</span>
+                <span *ngIf="protectedData.subtitle != ''">: {{ protectedData.subtitle }}</span>
+            </mat-card-title>        
+            <!-- edit / delete buttons -->
+            <div class="w-full flex flex-row justify-center items-center" *ngIf="user.role == 'Owner' || user.role == 'Editor'">
+                <button class="w-full" routerLink="{{'/publications/edit/' + protectedData.id}}" color="accent" mat-raised-button aria-label="Edit genre">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button class="icon-button" (click)="deleteItem()" color="warn" mat-raised-button aria-label="Delete genre">
+                    <span class="icon-wrapper">
+                        <mat-icon>delete_forever</mat-icon>
+                    </span>
+                </button>
+            </div>
+            <mat-grid-list class="flex w-full mt-5 max-sm:text-xs text-base text-center" cols="3" rowHeight="3em">
+              <mat-grid-tile class="grid-bg">
+                <div class="flex flex-col justify-center items-center" [routerLink]="'/publications'" [queryParams]="{ settingName: protectedData.settingName }">
+                  <div>Setting:</div>
+                  <div>{{ protectedData.settingName }} </div>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile class="grid-bg">
+                <div class="flex flex-col justify-center items-center" [routerLink]="'/publications'" [queryParams]="{ settingCategory: protectedData.settingCategory }">
+                  <div>Setting Category:</div>
+                  <div>{{ protectedData.settingCategory }} </div>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile class="grid-bg">
+                <div class="flex flex-col justify-center items-center" [routerLink]="'/publications'" [queryParams]="{ period: protectedData.period }">
+                  <div>Period:</div>
+                  <div>{{ protectedData.period }} </div>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile class="grid-bg">
+                <div class="flex flex-col justify-center items-center" [routerLink]="'/publications'" [queryParams]="{ timeScale: protectedData.timeScale }">
+                  <div>Time Scale:</div>
+                  <div>{{ protectedData.timeScale }} </div>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile class="grid-bg">
+                <div class="flex flex-col justify-center items-center" [routerLink]="'/publications'" [queryParams]="{ protagonistCategory: protectedData.protagonistCategory }">
+                  <div>Protagonist Category:</div>
+                  <div>{{ protectedData.protagonistCategory }} </div>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile class="grid-bg">
+                <div class="flex flex-col justify-center items-center" [routerLink]="'/publications'" [queryParams]="{ protagonistGroupType: protectedData.protagonistGroupType}">
+                  <div>Protagonist Group:</div>
+                  <div>{{ protectedData.protagonistGroupType }} </div>
+                </div>
+              </mat-grid-tile>
+            </mat-grid-list>
+
+            <div *ngIf="protectedData.authors.length > 0" class="w-full mt-2">
+                Authors:
+                <mat-chip-listbox aria-label="Authors">
+                    <mat-chip-option [routerLink]="'/authors/' + author.id" *ngFor="let author of protectedData.authors" color="primary">
+                        <span *ngIf="author.label == ''" [routerLink]="'/authors/' + author.id">{{ author.otherNames + ' ' + author.surname }}</span>
+                        <span *ngIf="author.label != ''" [routerLink]="'/authors/' + author.id">{{ author.label }}</span>
+                        <span *ngIf="author.AuthorOfPublications.publishedHonorific != '' || author.AuthorOfPublications.publishedName != ''">
+                          (as 
+                            <span *ngIf="author.AuthorOfPublications.publishedHonorific != ''">{{ author.AuthorOfPublications.publishedHonorific }} </span>
+                            <span *ngIf="author.AuthorOfPublications.publishedName != ''">{{ author.AuthorOfPublications.publishedName }}</span>)
+                        </span>
+                    </mat-chip-option>
+                </mat-chip-listbox>
+            </div>
+
+            <div *ngIf="protectedData.genres.length > 0" class="w-full mt-2">
+                Genres:
+                <mat-chip-listbox aria-label="Genres">
+                    <mat-chip-option *ngFor="let genre of protectedData.genres" color="primary" [routerLink]="'/publications'" [queryParams]="{ genre: genre.genre }">{{ genre.genre }}</mat-chip-option>
+                </mat-chip-listbox>
+            </div>
+
+            <div *ngIf="protectedData.narrations.length > 0" class="w-full mt-2">
+                Narration Styles:
+                <mat-chip-listbox aria-label="Narration Styles">
+                    <mat-chip-option *ngFor="let narration of protectedData.narrations" color="primary" [routerLink]="'/publications'" [queryParams]="{ narration: narration.narration }">{{ narration.narration }}</mat-chip-option>
+                </mat-chip-listbox>
+            </div>
+
+            <mat-divider *ngIf="protectedData.notes != ''" class="w-full my-5"></mat-divider>
+
+            <!-- any notes (optional) -->
+            <div class="w-full flex flex-col justify-start items-center">
+                <div class="w-full my-5 light-border flex flex-row justify-start items-center" *ngIf="(user.role == 'Owner' || user.role == 'Editor') && (protectedData.notes != null && protectedData.notes != '')">
+                    <span class="m-5">
+                        Notes:
+                    </span>
+                    <span class="m-5">
+                        {{ protectedData.notes }}
+                    </span>
+                </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  

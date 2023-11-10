@@ -9,21 +9,30 @@
     <p class="red-text">Error: problem connecting to server</p>
     </div>
 </div>
-<div *ngIf="this.loading == false" class="w-full h-full flex flex-col justify-start items-center">
-    <div class="h-full flex flex-col justify-center items-center">
-        <mat-card>
+<div *ngIf="this.loading == false" class="h-full flex flex-col justify-start items-center m-2 lg:m-5 xl:m-5 2xl:m-5">
+    <div class="w-full flex flex-col justify-center items-center">
+        <mat-card class="w-full">
             <div class="flex flex-col justify-center items-center">
             <mat-card-title>Profile</mat-card-title>
             <mat-card-content>
                 <!-- basic user infomation -->
                 <div class="flex flex-col justify-center items-center">
-                <table>
-                    <tbody>
-                        <tr><td>Username: </td><td>{{ this.protectedData.username }}</td></tr>
-                        <tr><td>Email: </td><td>{{ this.protectedData.email }}</td></tr>
-                        <tr><td>Role: </td><td>{{ this.protectedData.role }}</td></tr>
-                    </tbody>
-                </table>
+                    <div class="table">
+                        <div class="table-row-group">
+                            <div class="table-row my-2">
+                                <div class="table-cell">Username: </div>
+                                <div class="table-cell">{{ protectedData.username }}</div>
+                            </div>
+                            <div class="table-row my-2">
+                                <div class="table-cell">Email: </div>
+                                <div class="table-cell">{{ protectedData.email }}</div>
+                            </div>
+                            <div class="table-row my-2">
+                                <div class="table-cell">Role: </div>
+                                <div class="table-cell">{{ protectedData.role }}</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </mat-card-content>
             <!-- logout button -->
@@ -35,14 +44,14 @@
             <!-- privacy policy -->
             <div class="policy-links">
                 <div class="flex flex-col justify-center items-center">
-                <span><small><a routerLink='/privacy-policy'>View Privacy Policy</a></small></span>
+                <span><small><a routerLink='/privacy'>View Privacy Policy</a></small></span>
                 </div>
             </div>
             </div>
         </mat-card>
     </div>
     <!-- if user is site owner, show list of other users-->
-    <div *ngIf="this.protectedData.role == 'Owner'" class="h-full flex flex-col">
-        <app-users></app-users>
+    <div *ngIf="this.protectedData.role == 'Owner'" class="w-full h-full flex flex-col">
+        <app-users class="w-full"></app-users>
     </div>
 </div>
