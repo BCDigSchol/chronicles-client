@@ -6,8 +6,8 @@
           <app-filter [fields]="filterFields" (filterUpdated)="updateFilter($event)"></app-filter>
           <mat-paginator class="flex flex-row justify-start items-center" (page)="changePagination($event)" [length]="totalItems" [pageSize]="itemsPerPage" [showFirstLastButtons]="true" [pageSizeOptions]="[5, 10, 25, 50]" [pageIndex]="currentPage - 1"></mat-paginator>
         </div>
-        <!-- users list -->
-        <div class="table w-full text-left text-sm border border-solid border-black">
+        <!-- wide display -->
+        <div class="max-md:hidden table w-full text-left text-sm border border-solid border-black">
           <div class="table-header-group">
             <div class="table-row bg-gray-900 text-white">
               <div class="table-cell p-1">
@@ -25,18 +25,38 @@
             </div>
           </div>
           <div class="table-row-group">
-            <div class="table-row even:bg-gray-100 odd:bg-gray-200" *ngFor="let row of protectedData">
+            <div class="table-row even:bg-gray-100 odd:bg-gray-200 text-black" *ngFor="let row of protectedData">
               <div class="table-cell p-1">{{ row.username }}</div>
               <div class="table-cell p-1">{{ row.email }}</div>
               <div class="table-cell p-1">{{ row.role }}</div>
               <div class="table-cell p-1">
-                <button *ngIf="row.role == 'Owner'" mat-raised-button color="primary" aria-label="Deactivated promote button" disabled>Can't Promote Owner</button>
+                <button class="text-black" *ngIf="row.role == 'Owner'" mat-raised-button color="primary" aria-label="Deactivated promote button" disabled>Can't Promote Owner</button>
                 <button *ngIf="row.role == 'User'" mat-raised-button color="primary" (click)="openDialog(row.username, 'Editor')" aria-label="Promote user to editor">Promote to Editor</button>
                 <button *ngIf="row.role == 'Editor'" mat-raised-button color="primary" (click)="openDialog(row.username, 'User')" aria-label="Demote editor to user">Demote to User</button>
               </div>
             </div>
           </div>
         </div>
+
+        <!-- mobile display -->
+        <mat-list class="w-full md:hidden lg:hidden xl:hidden 2xl:hidden">
+          <mat-list-item *ngFor="let row of protectedData; let isLast=last">
+            <span class="text-lg w-full text-center" matListItemLine>
+              <strong>{{ row.username }} ({{ row.email }})</strong>
+            </span>
+            <span class="text-xs" matListItemLine>
+              {{ row.role }}
+              <button class="text-black" *ngIf="row.role == 'Owner'" mat-raised-button color="primary" aria-label="Deactivated promote button" disabled>Can't Promote Owner</button>
+              <button *ngIf="row.role == 'User'" mat-raised-button color="primary" (click)="openDialog(row.username, 'Editor')" aria-label="Promote user to editor">Promote to Editor</button>
+              <button *ngIf="row.role == 'Editor'" mat-raised-button color="primary" (click)="openDialog(row.username, 'User')" aria-label="Demote editor to user">Demote to User</button>
+            </span>
+            <span matListItemLine *ngIf="!isLast">
+              <mat-divider class="py-2 w-full" ></mat-divider>
+            </span>
+            
+          </mat-list-item>
+        </mat-list>
+
       </mat-card-content>
     </mat-card>
   </div>

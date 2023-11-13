@@ -18,7 +18,7 @@
         </div>
         </mat-card-content>
         <!-- error messages -->
-        <div *ngIf="errorMsgs.length > 0" class="error-msgs flex flex-col justify-center items-start">
+        <div *ngIf="errorMsgs.length > 0" class="text-red p-5 m-5 flex flex-col justify-center items-start">
         <div *ngFor="let errorMsg of errorMsgs">Error: {{ errorMsg }}</div>
         </div>
         <!-- login button -->

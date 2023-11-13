@@ -5,18 +5,18 @@
     }
   
     :host .list-container-filter-closed {
-      padding-top: 160px;
+      padding-top: 140px;
     }
 }
   
   // If the screen size is 600px wide or less, set for mobile
   @media screen and (max-width: 600px) {
     :host .list-container-filter-open {
-      padding-top: 275px;
+      padding-top: 295px;
     }
   
     :host .list-container-filter-closed {
-      padding-top: 170px;
+      padding-top: 150px;
     }
 }
   

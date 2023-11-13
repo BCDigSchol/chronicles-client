@@ -31,6 +31,10 @@
                                 <div class="table-cell">Role: </div>
                                 <div class="table-cell">{{ protectedData.role }}</div>
                             </div>
+                            <div class="table-row my-2">
+                                <div class="table-cell">Dark Theme? </div>
+                                <mat-slide-toggle [checked]="isDarkTheme | async" (change)="toggleDarkTheme($event.checked)">Dark theme</mat-slide-toggle>
+                            </div>
                         </div>
                     </div>
                 </div>

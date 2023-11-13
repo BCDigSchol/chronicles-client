@@ -5,6 +5,7 @@ import { PageEvent } from '@angular/material/paginator';
 
 import { ApiService } from './../../../services/api.service';
 import { User, UserService } from './../../../services/user.service';
+import { ThemeService } from './../../../services/theme.service';
 
 // the object to be passed/received by the confirmation dialogue
 export interface DialogData {
@@ -16,7 +17,8 @@ export interface DialogData {
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  styleUrls: ['./users.component.scss'],
+  providers: [ThemeService]
 })
 export class UsersComponent implements OnInit {
   // observable and local object for user data
@@ -46,11 +48,14 @@ export class UsersComponent implements OnInit {
     keyword: 'email',
     label: 'Email'
   }];
+  // theme setting
+  isDarkTheme: Observable<boolean>;
 
   constructor(
     private _user: UserService,
     private _api: ApiService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private themeService: ThemeService
   ) { }
 
 
@@ -60,6 +65,7 @@ export class UsersComponent implements OnInit {
     this.userDetails$.subscribe({ next:result => {
       this.user = result;
     }});
+    this.isDarkTheme = this.themeService.isDarkTheme;
     // get data from server
     this.refreshData();
   }

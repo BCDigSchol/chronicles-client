@@ -1,19 +1,30 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { MatSidenav } from '@angular/material/sidenav';
+
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers: [ThemeService]
 })
 export class AppComponent {
   // view to child component
   @ViewChild('sidenav') sidenav: MatSidenav;
   // app title
   title = 'chronicles';
-
+  // theme setting
+  isDarkTheme: Observable<boolean>;
   // status of site nav menu
   navMenuToggled: boolean = false;
+
+  constructor(private themeService: ThemeService) { }
+
+  ngOnInit() {
+    this.isDarkTheme = this.themeService.isDarkTheme;
+  }
 
   /**
    * Executed by header component event emitter, toggles nav menu status

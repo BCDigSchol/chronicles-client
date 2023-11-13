@@ -36,19 +36,19 @@
               <!-- stats -->
               <mat-grid-list class="flex w-full mt-5 max-sm:text-xs text-base text-center" cols="3" rowHeight="3em">
                 <mat-grid-tile class="grid-bg">
-                  <div class="flex flex-col justify-center items-center">
+                  <div class="flex flex-col justify-center items-center text-black">
                     <div>{{ item.authors.length }}</div>
                     <div>Author<span *ngIf="item.authors.length > 1 || item.authors.length === 0">s</span></div>
                   </div>
                 </mat-grid-tile>
                 <mat-grid-tile class="grid-bg">
-                  <div class="flex flex-col justify-center items-center">
+                  <div class="flex flex-col justify-center items-center text-black">
                     <div>{{ item.genres.length }}</div>
                     <div>Genre<span *ngIf="item.genres.length > 1 || item.genres.length === 0">s</span></div>
                   </div>
                 </mat-grid-tile>
                 <mat-grid-tile class="grid-bg">
-                  <div class="flex flex-col justify-center items-center">
+                  <div class="flex flex-col justify-center items-center text-black">
                     <div>{{ item.narrations.length }}</div>
                     <div>Narration Style<span *ngIf="item.narrations.length > 1 || item.narrations.length === 0">s</span></div>
                   </div>

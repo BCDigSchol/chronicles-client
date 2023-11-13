@@ -173,10 +173,10 @@
         <mat-card-actions>
           <div class="w-full flex flex-col justify-center items-center">
             <mat-divider class="w-full my-5"></mat-divider>
-            <div *ngIf="errorMsgs.length > 0" class="error-msgs flex flex-col justify-center items-start">
+            <div *ngIf="errorMsgs.length > 0" class="text-red p-5 m-5 flex flex-col justify-center items-start">
               <div *ngFor="let errorMsg of errorMsgs">Error: {{ errorMsg }}</div>
             </div>
-            <div *ngIf="serverErrorMsgs.length > 0" class="error-msgflex flex-col justify-center items-start">
+            <div *ngIf="serverErrorMsgs.length > 0" class="text-red p-5 m-5 flex flex-col justify-center items-start">
               <div *ngFor="let serverErrorMsg of serverErrorMsgs">Error: {{ serverErrorMsg }}</div>
             </div>
             <button mat-raised-button class="mt-5 w-full" type="submit" color="primary" aria-label="Add publication button"><mat-icon>add</mat-icon>Add Publication</button>

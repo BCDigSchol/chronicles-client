@@ -87,10 +87,10 @@
         <!-- error messages & select button -->
         <mat-card-actions>
           <div class="w-full flex flex-col justify-center items-center">
-            <div *ngIf="errorMsgs.length > 0" class="error-msgs flex flex-col justify-start items-center">
+            <div *ngIf="errorMsgs.length > 0" class="text-red p-5 m-5 flex flex-col justify-start items-center">
               <div *ngFor="let errorMsg of errorMsgs">Error: {{ errorMsg }}</div>
             </div>
-            <div *ngIf="serverErrorMsgs.length > 0" class="error-msgs flex flex-col justify-start items-center">
+            <div *ngIf="serverErrorMsgs.length > 0" class="text-red p-5 m-5 flex flex-col justify-start items-center">
               <div *ngFor="let serverErrorMsg of serverErrorMsgs">Error: {{ serverErrorMsg }}</div>
             </div>
             <button mat-raised-button type="button" class="w-full" color="primary" (click)="onSubmit()" aria-label="Select genre button">Select Genre</button>
