@@ -22,36 +22,42 @@ export class NavMenuComponent implements OnInit {
      'path': '',
      'requiresLogin': false,
      'requiresEditor': false,
+     'requiresAdmin': false,
      'requiresOwner': false
    }, {
      'label': 'Publications',
      'path': '/publications',
      'requiresLogin': true,
      'requiresEditor': true,
+     'requiresAdmin': false,
      'requiresOwner': false
    }, {
      'label': 'Authors',
      'path': '/authors',
      'requiresLogin': true,
      'requiresEditor': true,
+     'requiresAdmin': false,
      'requiresOwner': false
    }, {
      'label': 'Genres',
      'path': '/genres',
      'requiresLogin': true,
      'requiresEditor': true,
+     'requiresAdmin': false,
      'requiresOwner': false
    }, {
      'label': 'Narrations',
      'path': '/narrations',
      'requiresLogin': true,
      'requiresEditor': true,
+     'requiresAdmin': false,
      'requiresOwner': false
    }, {
      'label': 'Export',
      'path': '/export',
      'requiresLogin': true,
      'requiresEditor': true,
+     'requiresAdmin': true,
      'requiresOwner': false
    }];
    // observable and local object for user data

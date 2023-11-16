@@ -55,7 +55,7 @@
         </mat-card>
     </div>
     <!-- if user is site owner, show list of other users-->
-    <div *ngIf="this.protectedData.role == 'Owner'" class="w-full h-full flex flex-col">
+    <div *ngIf="this.protectedData.role == 'Owner' || this.protectedData.role == 'Admin'" class="w-full h-full flex flex-col">
         <app-users class="w-full"></app-users>
     </div>
 </div>

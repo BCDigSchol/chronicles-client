@@ -84,7 +84,7 @@ export class UsersComponent implements OnInit {
       role: newRole
     };
     // update user
-    this._api.putTypeRequest('user/' + username, requestObj).subscribe();
+    this._api.putTypeRequest('user/update/' + username, requestObj).subscribe();
     // refresh data
     this.refreshData();
   }

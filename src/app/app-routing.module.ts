@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 // service imports
 import { AuthGuardService } from './services/auth-guard.service';
 import { IsAdminService } from './services/is-admin.service';
+import { IsEditorService } from './services/is-editor.service';
 
 // component imports
 import { HomeComponent } from './components/home/home.component';
@@ -37,22 +38,22 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'profile', canActivate: [AuthGuardService], component: ProfileComponent },
   { path: 'export', canActivate: [AuthGuardService, IsAdminService], component: ExportComponent },
-  { path: 'genres', canActivate: [AuthGuardService, IsAdminService], component: GenreListViewComponent },
-  { path: 'genres/add', canActivate: [AuthGuardService, IsAdminService], component: GenreAddViewComponent },
-  { path: 'genres/:id', canActivate: [AuthGuardService, IsAdminService], component: GenreDetailsViewComponent},
-  { path: 'genres/edit/:id', canActivate: [AuthGuardService, IsAdminService], component: GenreEditViewComponent },
-  { path: 'narrations', canActivate: [AuthGuardService, IsAdminService], component: NarrationListViewComponent },
-  { path: 'narrations/add', canActivate: [AuthGuardService, IsAdminService], component: NarrationAddViewComponent },
-  { path: 'narrations/:id', canActivate: [AuthGuardService, IsAdminService], component: NarrationDetailsViewComponent},
-  { path: 'narrations/edit/:id', canActivate: [AuthGuardService, IsAdminService], component: NarrationEditViewComponent },
-  { path: 'authors', canActivate: [AuthGuardService, IsAdminService], component: AuthorListViewComponent },
-  { path: 'authors/add', canActivate: [AuthGuardService, IsAdminService], component: AuthorAddViewComponent },
-  { path: 'authors/:id', canActivate: [AuthGuardService, IsAdminService], component: AuthorDetailsViewComponent},
-  { path: 'authors/edit/:id', canActivate: [AuthGuardService, IsAdminService], component: AuthorEditViewComponent },
-  { path: 'publications', canActivate: [AuthGuardService, IsAdminService], component: PublicationListViewComponent },
-  { path: 'publications/add', canActivate: [AuthGuardService, IsAdminService], component: PublicationAddViewComponent },
-  { path: 'publications/:id', canActivate: [AuthGuardService, IsAdminService], component: PublicationDetailsViewComponent},
-  { path: 'publications/edit/:id', canActivate: [AuthGuardService, IsAdminService], component: PublicationEditViewComponent },
+  { path: 'genres', canActivate: [AuthGuardService, IsEditorService], component: GenreListViewComponent },
+  { path: 'genres/add', canActivate: [AuthGuardService, IsEditorService], component: GenreAddViewComponent },
+  { path: 'genres/:id', canActivate: [AuthGuardService, IsEditorService], component: GenreDetailsViewComponent},
+  { path: 'genres/edit/:id', canActivate: [AuthGuardService, IsEditorService], component: GenreEditViewComponent },
+  { path: 'narrations', canActivate: [AuthGuardService, IsEditorService], component: NarrationListViewComponent },
+  { path: 'narrations/add', canActivate: [AuthGuardService, IsEditorService], component: NarrationAddViewComponent },
+  { path: 'narrations/:id', canActivate: [AuthGuardService, IsEditorService], component: NarrationDetailsViewComponent},
+  { path: 'narrations/edit/:id', canActivate: [AuthGuardService, IsEditorService], component: NarrationEditViewComponent },
+  { path: 'authors', canActivate: [AuthGuardService, IsEditorService], component: AuthorListViewComponent },
+  { path: 'authors/add', canActivate: [AuthGuardService, IsEditorService], component: AuthorAddViewComponent },
+  { path: 'authors/:id', canActivate: [AuthGuardService, IsEditorService], component: AuthorDetailsViewComponent},
+  { path: 'authors/edit/:id', canActivate: [AuthGuardService, IsEditorService], component: AuthorEditViewComponent },
+  { path: 'publications', canActivate: [AuthGuardService, IsEditorService], component: PublicationListViewComponent },
+  { path: 'publications/add', canActivate: [AuthGuardService, IsEditorService], component: PublicationAddViewComponent },
+  { path: 'publications/:id', canActivate: [AuthGuardService, IsEditorService], component: PublicationDetailsViewComponent},
+  { path: 'publications/edit/:id', canActivate: [AuthGuardService, IsEditorService], component: PublicationEditViewComponent },
   
   // privacy policy
   { path: 'privacy', component: PrivacyPolicyComponent },

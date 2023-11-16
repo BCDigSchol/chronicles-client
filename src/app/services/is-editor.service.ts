@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 import { User, UserService } from './user.service';
 
 /**
- * IsAdminService prevents users who are not administrators from accessing certain routes.
+ * IsEditorService prevents users who are not editors or above from accessing certain routes.
  */
 @Injectable({
   providedIn: 'root'
 })
-export class IsAdminService {
+export class IsEditorService {
 
   constructor(
     private _userService: UserService,
@@ -32,7 +32,7 @@ export class IsAdminService {
     userDetails$.subscribe(result => {
       user = result;
     });
-    if (user.role == 'Owner' || user.role == 'Admin') {
+    if (user.role == 'Owner' || user.role == 'Editor' || user.role == 'Admin') {
       return true;
     }
 
