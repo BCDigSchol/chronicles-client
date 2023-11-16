@@ -13,7 +13,7 @@
               <div class="table-cell p-1">
                 Username
               </div>
-              <div class="table-cell p-1">
+              <div class="table-cell p-1 w-full">
                 Email
               </div>
               <div class="table-cell p-1">
@@ -23,7 +23,7 @@
           </div>
           <div class="table-row-group">
             <div class="table-row even:bg-gray-100 odd:bg-gray-200 text-black" *ngFor="let row of protectedData">
-              <div class="table-cell p-1 w-full">{{ row.username }}</div>
+              <div class="table-cell p-1">{{ row.username }}</div>
               <div class="table-cell p-1 w-full">{{ row.email }}</div>
               <div class="table-cell p-1">
                 <div class="w-full flex flex-row justify-center items-center">
@@ -54,7 +54,7 @@
                     </span>
                   </button>
                   <!-- current role -->
-                  <span class="w-full text-center">
+                  <span class="p-2 w-full text-center">
                     {{ row.role }}
                   </span>
                   <!-- promotion buttons -->
