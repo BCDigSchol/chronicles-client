@@ -20,10 +20,10 @@ export class AppComponent {
   // status of site nav menu
   navMenuToggled: boolean = false;
 
-  constructor(private themeService: ThemeService) { }
+  constructor(private _themeService: ThemeService) { }
 
   ngOnInit() {
-    this.isDarkTheme = this.themeService.isDarkTheme;
+    this.isDarkTheme = this._themeService.isDarkTheme;
   }
 
   /**

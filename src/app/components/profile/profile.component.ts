@@ -29,7 +29,7 @@ export class ProfileComponent implements OnInit {
     private _user: UserService,
     private _router: Router,
     private _snackBar: MatSnackBar,
-    private themeService: ThemeService
+    private _themeService: ThemeService
   ) { }
 
   /**
@@ -39,7 +39,7 @@ export class ProfileComponent implements OnInit {
     // get stored user information for username
     const userDetails = JSON.parse(this._auth.getUserDetails()!);
     // get theme setting
-    this.isDarkTheme = this.themeService.isDarkTheme;
+    this.isDarkTheme = this._themeService.isDarkTheme;
     // get updated user information from server
     this._api.getTypeRequest('profile/' + userDetails.username).subscribe({
       next: (res: any) => {
@@ -66,7 +66,7 @@ export class ProfileComponent implements OnInit {
    * Toggles the dark theme setting on the theme service
    */
   toggleDarkTheme(checked: boolean) {
-    this.themeService.setDarkTheme(checked);
+    this._themeService.setDarkTheme(checked);
   }
 
 }
