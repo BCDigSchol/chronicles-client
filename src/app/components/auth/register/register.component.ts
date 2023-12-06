@@ -69,6 +69,7 @@ export class RegisterComponent implements OnInit {
               username: res.data.username,
               email: res.data.email,
               role: res.data.role,
+              theme: res.data.theme,
               token: res.token
             });
             // navigate home
@@ -103,6 +104,7 @@ export class RegisterComponent implements OnInit {
         username: userDetails.username,
         email: userDetails.email,
         role: userDetails.role,
+        theme: userDetails.theme,
         token: userDetails.token
       });
     }

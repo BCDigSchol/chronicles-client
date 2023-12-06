@@ -62,6 +62,7 @@ export class LoginComponent {
             username: res.data.username,
             email: res.data.email,
             role: res.data.role,
+            theme: res.data.theme,
             token: res.token
           });
           this._snackBar.open('Successfully logged in!', '', { duration: 2000 });
@@ -91,6 +92,7 @@ export class LoginComponent {
         username: userDetails.username,
         email: userDetails.email,
         role: userDetails.role,
+        theme: userDetails.theme,
         token: userDetails.token
       });
     }

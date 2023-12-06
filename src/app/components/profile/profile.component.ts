@@ -26,24 +26,35 @@ export class ProfileComponent implements OnInit {
   constructor(
     private _api: ApiService,
     private _auth: AuthService,
-    private _user: UserService,
+    public _user: UserService,
     private _router: Router,
     private _snackBar: MatSnackBar,
-    private _themeService: ThemeService
+    private _theme: ThemeService
   ) { }
 
   /**
    * Checks stored info for username, then gets updated user info from server
    */
   ngOnInit(): void {
+    // get theme setting
+    this.isDarkTheme = this._theme.isDarkTheme;
+    this.refreshData();
+  }
+
+  /** Gets data from server */
+  refreshData() {
     // get stored user information for username
     const userDetails = JSON.parse(this._auth.getUserDetails()!);
-    // get theme setting
-    this.isDarkTheme = this._themeService.isDarkTheme;
     // get updated user information from server
     this._api.getTypeRequest('profile/' + userDetails.username).subscribe({
       next: (res: any) => {
         this.protectedData = res.data;
+        if (this.protectedData.theme == 'light') {
+          this._theme.setDarkTheme(false);
+        }
+        else {
+          this._theme.setDarkTheme(true);
+        }
         this.loading = false;
       },
       error: (error: any) => {
@@ -66,7 +77,36 @@ export class ProfileComponent implements OnInit {
    * Toggles the dark theme setting on the theme service
    */
   toggleDarkTheme(checked: boolean) {
-    this._themeService.setDarkTheme(checked);
+    let updatedData = {
+      username: this.protectedData.username,
+      theme: 'light'
+    };
+    // set to dark theme if theme is already light
+    if (this.protectedData.theme == 'light') {
+      updatedData.theme = 'dark'
+    }
+    // update theme in local storage
+    let localDataString = this._auth.getUserDetails();
+    if (localDataString) {
+      let localData = JSON.parse(localDataString);
+      localData.theme = updatedData.theme;
+      this._auth.setDataInLocalStorage('userData', JSON.stringify(localData));
+    }
+    this._api.putTypeRequest('user/update/' + this.protectedData.username, updatedData).subscribe({
+      next: (res: any) => {
+        if (updatedData.theme == 'light') {
+          this._theme.setDarkTheme(false);
+        }
+        else {
+          this._theme.setDarkTheme(true);
+        }
+        
+        this.refreshData();
+      },
+      error: (error: any) => {
+        this.loadingError = true;
+      }
+    });
   }
 
 }
