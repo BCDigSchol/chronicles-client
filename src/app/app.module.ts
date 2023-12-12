@@ -147,9 +147,9 @@ import { ConfirmUnlinkItemDialog } from './components/publication/publication-ed
     ConfirmUnlinkItemDialog
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
     HttpClientModule,
     MatCardModule,
     FormsModule,
