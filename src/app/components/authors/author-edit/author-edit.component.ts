@@ -118,10 +118,10 @@ export class AuthorEditComponent implements OnInit {
       maidenName: this.protectedData.maindenName,
       otherNames: this.protectedData.otherNames,
       label: this.protectedData.label,
-      gender: this.protectedData.gender,
-      nationality: this.protectedData.nationality,
-      specificNationality: this.protectedData.specificNationality,
-      nonPerson: this.protectedData.nonPerson
+      gender: this.protectedData.gender.selected,
+      nationality: this.protectedData.nationality.selected,
+      specificNationality: this.protectedData.specificNationality.selected,
+      nonPerson: this.protectedData.nonPerson.selected
     };
     // copy values from form into request object
     Object.assign(reqObject, form.value);

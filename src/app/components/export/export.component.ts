@@ -1,5 +1,6 @@
 import { Component, OnInit, SecurityContext } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { of } from 'rxjs';
 
 import { ApiService } from './../../services/api.service';
 

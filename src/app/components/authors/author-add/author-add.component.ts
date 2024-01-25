@@ -131,10 +131,10 @@ export class AuthorAddComponent implements OnInit {
       maidenName: '',
       otherNames: '',
       label: '',
-      gender: this.selectionOptions.gender,
-      nationality: this.selectionOptions.nationality,
-      specificNationality: this.selectionOptions.specificNationality,
-      nonPerson: this.selectionOptions.nonPerson,
+      gender: this.selectionOptions.gender.selected,
+      nationality: this.selectionOptions.nationality.selected,
+      specificNationality: this.selectionOptions.specificNationality.selected,
+      nonPerson: this.selectionOptions.nonPerson.selected,
       notes: ''
     };
     // copy values from form into request object
