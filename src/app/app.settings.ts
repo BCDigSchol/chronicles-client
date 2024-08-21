@@ -4,7 +4,7 @@ export const Settings = {
     siteName: 'Chronicles Project',
     byline: '',
     // sets any links for the site itself
-    siteUrl: 'http://localhost:4200/',
+    siteUrl: 'https://library.bc.edu/ds/chronicles/',
     // sets the url of the server API
     apiUrl: 'http://localhost:8080/api/'
   };
