@@ -17,7 +17,7 @@
             <!-- title -->
             <mat-card-title class="w-full card-title">{{ protectedData.genre }}</mat-card-title>
             <!-- edit / delete buttons -->
-            <div class="w-full flex flex-row justify-center items-center" *ngIf="user.role == 'Owner' || user.role == 'Editor'">
+            <div class="w-full flex flex-row justify-center items-center" *ngIf="user.role == 'Owner' || user.role == 'Admin' || user.role == 'Editor'">
                 <button class="w-full" routerLink="{{'/genres/edit/' + protectedData.id}}" color="accent" mat-raised-button aria-label="Edit genre">
                   <mat-icon>edit</mat-icon>
                 </button>

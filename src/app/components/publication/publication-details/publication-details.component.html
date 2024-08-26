@@ -20,7 +20,7 @@
                 <span *ngIf="protectedData.subtitle != ''">: {{ protectedData.subtitle }}</span>
             </mat-card-title>        
             <!-- edit / delete buttons -->
-            <div class="w-full flex flex-row justify-center items-center" *ngIf="user.role == 'Owner' || user.role == 'Editor'">
+            <div class="w-full flex flex-row justify-center items-center" *ngIf="user.role == 'Owner' || user.role == 'Admin' || user.role == 'Editor'">
                 <button class="w-full" routerLink="{{'/publications/edit/' + protectedData.id}}" color="accent" mat-raised-button aria-label="Edit genre">
                   <mat-icon>edit</mat-icon>
                 </button>
