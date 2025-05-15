@@ -5,6 +5,7 @@ import { PageEvent } from '@angular/material/paginator';
 
 import { ApiService } from './../../../services/api.service';
 import { User, UserService } from './../../../services/user.service';
+import { ThemeService } from './../../../services/theme.service';
 
 // the object to be passed/received by the confirmation dialogue
 export interface DialogData {
@@ -16,7 +17,8 @@ export interface DialogData {
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  styleUrls: ['./users.component.scss'],
+  providers: [ThemeService]
 })
 export class UsersComponent implements OnInit {
   // observable and local object for user data
@@ -33,27 +35,37 @@ export class UsersComponent implements OnInit {
   itemsPerPage = 5;
   // whether or not the dialogue has confirmed
   confirm: boolean = false;
-  // string to filter user results server-side
-  filterByUsername: string = '';
+  // strings to filter results by (server-side)
+  filterValues: any = {
+    username: '',
+    email: ''
+  };
   // fields to send to the filter widget
   filterFields = [{
     keyword: 'username',
     label: 'Username'
+  }, {
+    keyword: 'email',
+    label: 'Email'
   }];
+  // theme setting
+  isDarkTheme: Observable<boolean>;
 
   constructor(
     private _user: UserService,
     private _api: ApiService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private themeService: ThemeService
   ) { }
 
 
   ngOnInit(): void {
     // get observable & set behavior on change
     this.userDetails$ = this._user.user$;
-    this.userDetails$.subscribe(result => {
+    this.userDetails$.subscribe({ next:result => {
       this.user = result;
-    });
+    }});
+    this.isDarkTheme = this.themeService.isDarkTheme;
     // get data from server
     this.refreshData();
   }
@@ -72,9 +84,10 @@ export class UsersComponent implements OnInit {
       role: newRole
     };
     // update user
-    this._api.putTypeRequest('user/' + username, requestObj).subscribe();
-    // refresh data
-    this.refreshData();
+    this._api.putTypeRequest('user/update/' + username, requestObj).subscribe((res: any) => {
+      // refresh data
+      this.refreshData();
+    });
   }
 
   /**
@@ -84,7 +97,10 @@ export class UsersComponent implements OnInit {
    * @param filterInfo - Object with fields corresponding to each filter
    */
   updateFilter(filterInfo: any) {
-    this.filterByUsername = filterInfo.username;
+    this.filterValues = {
+      username: filterInfo.username,
+      email: filterInfo.email
+    };
     this.refreshData();
   }
 
@@ -130,8 +146,10 @@ export class UsersComponent implements OnInit {
     let requestString: string = 'user/?';
     // add in relevant pagination & username to filter server request
     requestString += 'page=' + (this.currentPage - 1) +  '&size=' + this.itemsPerPage;
-    if (this.filterByUsername) {
-      requestString += '&username=' + this.filterByUsername;
+    for (let key in this.filterValues) {
+      if (this.filterValues[key] && this.filterValues[key] != '') {
+        requestString += '&' + key + '=' + this.filterValues[key]
+      }
     }
     // make request, get total numbrer of items, and untoggle loading
     this._api.getTypeRequest(requestString).subscribe((res: any) => {

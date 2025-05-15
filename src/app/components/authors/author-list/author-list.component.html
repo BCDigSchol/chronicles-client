@@ -1,0 +1,42 @@
+<!-- loading messages -->
+<div *ngIf="loading" class="flex justify-center items-center h-full">
+    <div *ngIf="!loadingError" class="flex flex-col justify-center items-center">
+      <mat-spinner></mat-spinner>
+      <p>Loading</p>
+    </div>
+    <div *ngIf="loadingError" class="flex flex-col justify-center items-center">
+      <mat-icon class="red-text">error</mat-icon>
+      <p class="red-text">Error: problem connecting to server</p>
+    </div>
+  </div>
+  <div *ngIf="!loading" class="w-full h-full flex flex-col justify-start items-center">
+    <div class="w-full">
+      <!-- filter -->
+      <div class="filter-container">
+        <app-filter [fields]="filterFields" (filterUpdated)="updateFilter($event)" (displayToggled)="toggleFilter($event)"></app-filter>
+        <mat-paginator class="flex flex-row justify-start items-center" (page)="changePagination($event)" [length]="totalItems" [pageSize]="itemsPerPage" [showFirstLastButtons]="true" [pageSizeOptions]="[5, 10, 25, 50]" [pageIndex]="currentPage - 1"></mat-paginator>
+      </div>
+      
+      <div [ngClass]="filterHidden == true ? 'list-container-filter-closed' : 'list-container-filter-open'">
+        <mat-card class="m-2 lg:m-5 xl:m-5 2xl:m-5" *ngIf="this.isFiltered() === true" (click)="clearFilter()" routerLink="/authors">
+          <button class="icon-button" type="button" color="primary" mat-raised-button aria-label="Reset filter">
+            <span class="icon-wrapper">
+                <mat-icon>refresh</mat-icon>
+                <span>Clear Filters</span>
+            </span>
+          </button>
+        </mat-card>
+
+        <mat-card *ngFor="let item of protectedData" (click)="navigate(item.id)" class="m-2 lg:m-5 xl:m-5 2xl:m-5">
+          <mat-card-content>
+            <div class="flex flex-col justify-start items-start">
+              <!-- title -->
+              <mat-card-title *ngIf="item.label == ''" class="w-full card-title">{{ item.otherNames + ' ' + item.surname }}</mat-card-title>
+              <mat-card-title *ngIf="item.label != ''" class="w-full card-title">{{ item.label }}</mat-card-title>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  

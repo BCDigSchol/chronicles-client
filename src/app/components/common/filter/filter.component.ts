@@ -12,7 +12,7 @@ export class FilterComponent implements OnInit {
   // list of fields, each defined as object w key and label of each field
   // e.g. [{ keyword: 'title', label: 'Title' }, {...}]
   @Input() fields: any[] = [];
-
+  // stores values of filters
   protectedData: any = {};
   isHidden: boolean = true;
 
@@ -35,12 +35,32 @@ export class FilterComponent implements OnInit {
   }
 
   /**
+   * Toggles the visibility of the filter fields in filterActive
+   */
+  toggleVisibility(field: any) {
+    if (field.active === undefined) {
+      field.active = true
+    }
+    else {
+      field.active = !field.active;
+    }
+    this.updateFilter();
+  }
+
+  /**
    * Clears protectedData and uses .fields to recreate empty inputs at each keyword
    */
   clearInputFields() {
     this.protectedData = {};
     for (let field of this.fields) {
-      this.protectedData[field.keyword] = '';
+      if (field.active) {
+        if (field.type === 'range') {
+          this.protectedData[field.keywordStart] = field.min;
+          this.protectedData[field.keywordEnd] = field.max;
+        } else {
+          this.protectedData[field.keyword] = '';
+        }
+      }
     }
   }
 
@@ -48,6 +68,7 @@ export class FilterComponent implements OnInit {
    * Upon update of input field, emits new data.
    */
   updateFilter() {
+    // iterates over every property in this.filterActive, and if it is true, adds it to filterObj
     this.filterUpdated.emit(this.protectedData);
   }
 
@@ -59,5 +80,4 @@ export class FilterComponent implements OnInit {
     this.isHidden = !this.isHidden;
     this.displayToggled.emit(this.isHidden);
   }
-
 }

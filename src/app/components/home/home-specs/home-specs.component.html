@@ -10,6 +10,19 @@
       </mat-list>
     </mat-card-content>
   </mat-card>
+
+  <!-- repositories -->
+  <mat-card>
+    <mat-card-title>GitHub Repositories: Code & Data</mat-card-title>
+    <mat-card-content>
+      <mat-list dense>
+        <mat-list-item *ngFor="let repository of specs.repositories">
+          <span class="label"><strong>{{ repository.label }}:</strong></span>
+          <a [href]="safeUrl(repository.link)" target="_blank">{{ repository.value }}</a>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
   
   <!-- project dependencies -->
   <mat-card>
@@ -20,6 +33,14 @@
       <mat-list dense>
         <mat-list-item *ngFor="let frontendDependency of specs.dependencies.frontend">
           <a [href]="safeUrl(frontendDependency.link)" target="_blank">{{ frontendDependency.label }}</a>
+        </mat-list-item>
+      </mat-list>
+      <mat-divider></mat-divider>
+      <!-- backend -->
+      <h3>Backend:</h3>
+      <mat-list dense>
+        <mat-list-item *ngFor="let backendDependency of specs.dependencies.backend">
+          <a [href]="safeUrl(backendDependency.link)" target="_blank">{{ backendDependency.label }}</a>
         </mat-list-item>
       </mat-list>
       <mat-divider></mat-divider>

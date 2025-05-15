@@ -1,39 +1,109 @@
-<mat-card>
+<ng-container *ngIf="isHidden; else filterTemplate">
+  <mat-card class="filter-container">
     <mat-card-content>
-      <div class="title max-sm:text-sm">
-        <div *ngIf="isHidden" class="flex flex-row" (click)="toggleDisplay()" aria-label="Show filter">
-          <div class="w-full">Filter</div>
-          <mat-icon>arrow_drop_up</mat-icon>
-        </div>
-        <div *ngIf="!isHidden" class="flex flex-row" (click)="toggleDisplay()" aria-label="Hide filter">
-          <div class="w-full">Filter</div>
-          <mat-icon>arrow_drop_down</mat-icon>
-        </div>
+      <div class="flex flex-row" (click)="toggleDisplay()" aria-label="Show filter">
+        <div class="w-full">Filter</div>
+        <mat-icon>arrow_drop_up</mat-icon>
       </div>
-      <mat-divider *ngIf="!isHidden" class="w-full p-5"></mat-divider>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
+<ng-template #filterTemplate>
+  <mat-card>
+    <mat-card-content>
+      <div class="flex flex-row" (click)="toggleDisplay()" aria-label="Hide filter">
+        <div class="w-full">Filter</div>
+        <mat-icon>arrow_drop_down</mat-icon>
+      </div>
       <div *ngIf="!isHidden" class="w-full">
+        <div class="w-full flex flex-row justify-start items-center">
+          <mat-chip-listbox class="w-full">
+            <ng-container *ngFor="let field of fields">
+              <mat-chip *ngIf="!field.active" (click)="toggleVisibility(field)">
+                <mat-icon>filter_alt</mat-icon>
+                <span>{{ field.label }}</span>
+              </mat-chip>
+            </ng-container>
+            
+          </mat-chip-listbox>
+        </div>
         <!-- wide display -->
-        <div class="max-sm:hidden flex flex-row justify-evenly items-center">
-          <div *ngFor="let field of fields" class="filter-input-wrapper">
-            <label for="{{ field.keyword }} + 'Filter'"> {{ field.label }}: </label>
-            <input type="text" id="{{ field.keyword }} + 'Filter'" (input)="updateFilter()"  [(ngModel)]="protectedData[field.keyword]" />
+        <div class="max-sm:hidden flex flex-row justify-start items-center">
+          <div *ngFor="let field of fields">
+            <ng-container *ngIf="field.active">
+              <div class="flex flex-col justify-start items-center mt-2 mx-2">
+                <label *ngIf=" field.type == 'range'" for="{{ field.keyword }} + 'Filter'"> {{ field.label }}: </label>
+                <ng-container [ngSwitch]="true">
+                  <div *ngSwitchCase="field.type == 'dropdown'">
+                    <mat-form-field>
+                    <mat-select placeholder="{{field.label}}" class="border border-gray-300 rounded-lg" id="{{ field.keyword }} + 'Filter'" (selectionChange)="updateFilter()" [(ngModel)]="protectedData[field.keyword]">
+                      <mat-option *ngFor="let option of field.dropdown" [value]="option">{{ option }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  </div>
+                  <div class="mr-2" *ngSwitchCase="field.type == 'range'">
+                      <mat-slider min="{{ field.min }}" max="{{ field.max }}" discrete>
+                        <input value="{{ field.min }}" id="{{ field.keywordStart }} + 'Filter'" (change)="updateFilter()" [(ngModel)]="protectedData[field.keywordStart]" matSliderStartThumb />
+                        <input value="{{ field.max }}" id="{{ field.keywordEnd }} + 'Filter'" (change)="updateFilter()" [(ngModel)]="protectedData[field.keywordEnd]" matSliderEndThumb />
+                      </mat-slider>
+    
+                  </div>
+                  <div *ngSwitchCase="field.type == 'boolean'">
+                      <mat-slide-toggle id="{{ field.keyword }} + 'Filter'" (change)="updateFilter()" [(ngModel)]="protectedData[field.keyword]">
+                        {{ field.label }}
+                      </mat-slide-toggle>
+                  </div>
+                  <div *ngSwitchDefault>
+                    <mat-form-field>
+                      <input placeholder="{{field.label}}" matInput class="border border-gray-300 rounded-lg" type="text" id="{{ field.keyword }} + 'Filter'" (input)="updateFilter()" [(ngModel)]="protectedData[field.keyword]"/>
+                    </mat-form-field>
+                  </div>
+                </ng-container>
+                <button mat-button type="button" (click)="toggleVisibility(field)">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </div>
+            </ng-container>
           </div>
         </div>
         <!-- mobile display -->
-        <table class="sm:hidden md:hidden lg:hidden xl:hidden 2xl:hidden table-auto border-collapse max-sm:text-xs">
+        <table class="w-full sm:hidden md:hidden lg:hidden xl:hidden 2xl:hidden table-auto border-collapse max-sm:text-xs">
           <tbody>
-            <tr *ngFor="let field of fields">
-              <td>
-                <label for="{{ field.keyword }} + 'Filter'">
-                  {{ field.label }}:
-                </label>
-              </td>
-              <td>
-                <input type="text" id="{{ field.keyword }} + 'Filter'" (input)="updateFilter()"  [(ngModel)]="protectedData[field.keyword]" />
-              </td>
-            </tr>
+            <ng-container *ngFor="let field of fields">
+              <tr *ngIf="field.active">
+                <td>
+                  <label for="{{ field.keyword }} + 'Filter'">
+                    {{ field.label }}:
+                  </label>
+                </td>
+                <td>
+                  <ng-container>
+                    <div class="flex flex-row justify-start items-center">
+                      <ng-container *ngIf="field.type == 'dropdown'">
+                        <select class="w-full border border-gray-300 rounded-lg" id="{{ field.keyword }} + 'Filter'" (change)="updateFilter()" [(ngModel)]="protectedData[field.keyword]">
+                          <option *ngFor="let option of field.dropdown" [value]="option">{{ option }}</option>
+                        </select>
+                      </ng-container>
+                      <ng-container *ngIf="field.type == 'range'">
+                        <mat-slider min="{{ field.min }}" max="{{ field.max }}" discrete>
+                          <input value="{{ field.min }}" id="{{ field.keywordStart }} + 'Filter'" (change)="updateFilter()" [(ngModel)]="protectedData[field.keywordStart]" matSliderStartThumb />
+                          <input value="{{ field.max }}" id="{{ field.keywordEnd }} + 'Filter'" (change)="updateFilter()" [(ngModel)]="protectedData[field.keywordEnd]" matSliderEndThumb />
+                        </mat-slider>
+                      </ng-container>
+                      <ng-container *ngIf="field.type == 'input'" class="w-full">
+                        <input class="w-full border border-gray-300 rounded-lg" type="text" id="{{ field.keyword }} + 'Filter'" (input)="updateFilter()" [(ngModel)]="protectedData[field.keyword]"/>
+                      </ng-container>
+                      <button mat-button type="button" (click)="toggleVisibility(field)">
+                        <mat-icon>cancel</mat-icon>
+                      </button>
+                    </div>
+                  </ng-container>
+                </td>
+              </tr>
+            </ng-container>
           </tbody>
         </table>
       </div>
     </mat-card-content>
-</mat-card>
+  </mat-card>
+</ng-template>

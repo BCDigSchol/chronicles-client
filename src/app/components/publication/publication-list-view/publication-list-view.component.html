@@ -1,0 +1,7 @@
+<div class="w-full h-full">
+    <app-publication-list></app-publication-list>
+    <button class="add-button-container m-1" *ngIf="user.role == 'Owner' || user.role == 'Admin' || user.role == 'Editor'" color="primary" routerLink="/publications/add" mat-fab aria-label="Add new publication">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
+

@@ -32,7 +32,7 @@ export class IsAdminService {
     userDetails$.subscribe(result => {
       user = result;
     });
-    if (user.role == 'Owner' || user.role == 'Editor') {
+    if (user.role == 'Owner' || user.role == 'Admin') {
       return true;
     }
 

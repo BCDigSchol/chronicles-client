@@ -1,0 +1,9 @@
+<div *ngIf="!loading">
+    <div class="mt-2 mx-5">
+      <button class="w-full" type="button" routerLink="/narrations" color="primary" mat-raised-button aria-label="Back to view narrations">
+        <mat-icon>keyboard_arrow_up</mat-icon>
+      </button>
+    </div>
+    <app-narration-details itemId="{{ itemId }}"></app-narration-details>
+</div>
+  

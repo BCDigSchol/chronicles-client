@@ -1,35 +1,153 @@
 <div *ngIf="!loading">
-    <mat-card>
+    <mat-card class="w-full">
       <mat-card-content>
         <div>
           <!-- filter -->
           <app-filter [fields]="filterFields" (filterUpdated)="updateFilter($event)"></app-filter>
-          <mat-paginator class="flex flex-row framed-content margin-content-sides-wide justify-start items-center" (page)="changePagination($event)" [length]="totalItems" [pageSize]="itemsPerPage" [showFirstLastButtons]="true" [pageSizeOptions]="[5, 10, 25, 50]" [pageIndex]="currentPage - 1"></mat-paginator>
+          <mat-paginator class="flex flex-row justify-start items-center" (page)="changePagination($event)" [length]="totalItems" [pageSize]="itemsPerPage" [showFirstLastButtons]="true" [pageSizeOptions]="[5, 10, 25, 50]" [pageIndex]="currentPage - 1"></mat-paginator>
         </div>
-        <!-- users table -->
-        <table class="full-width contrast-table">
-          <!-- header -->
-          <thead>
-            <tr>
-              <th>Username</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Edit User</th>
-            </tr>
-          </thead>
-          <!-- data rows -->
-          <tbody>
-            <tr *ngFor="let row of protectedData">
-              <td>{{ row.username }}</td>
-              <td>{{ row.email }}</td>
-              <td>{{ row.role }}</td>
-              <td>
-                <button *ngIf="row.role == 'User'" mat-raised-button color="primary" (click)="openDialog(row.username, 'Editor')" aria-label="Promote user to editor">Promote to Editor</button>
-                <button *ngIf="row.role == 'Editor'" mat-raised-button color="primary" (click)="openDialog(row.username, 'User')" aria-label="Demote editor to user">Demote to User</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <!-- wide display -->
+        <div class="max-md:hidden table w-full text-left text-sm border border-solid border-black">
+          <div class="table-header-group">
+            <div class="table-row bg-gray-900 text-white">
+              <div class="table-cell p-1">
+                Username
+              </div>
+              <div class="table-cell p-1 w-full">
+                Email
+              </div>
+              <div class="table-cell p-1">
+                Alter Role
+              </div>
+            </div>
+          </div>
+          <div class="table-row-group">
+            <div class="table-row even:bg-gray-100 odd:bg-gray-200 text-black" *ngFor="let row of protectedData">
+              <div class="table-cell p-1">{{ row.username }}</div>
+              <div class="table-cell p-1 w-full">{{ row.email }}</div>
+              <div class="table-cell p-1">
+                <div class="w-full flex flex-row justify-center items-center">
+                  <!-- demotion buttons -->
+                  <button *ngIf="row.role == 'User'" class="icon-button w-full" color="primary" mat-raised-button aria-label="Demote user" disabled>
+                    <span class="icon-wrapper">
+                        <mat-icon>arrow_downward</mat-icon>
+                    </span>
+                  </button>
+                  <button *ngIf="row.role == 'Editor'" class="icon-button w-full" color="primary" (click)="openDialog(row.username, 'User')" mat-raised-button aria-label="Demote editor">
+                    <span class="icon-wrapper">
+                        <mat-icon>arrow_downward</mat-icon>
+                    </span>
+                  </button>
+                  <button *ngIf="row.role == 'Admin' && user.role == 'Owner'" class="icon-button w-full" color="primary" (click)="openDialog(row.username, 'Editor')" mat-raised-button aria-label="Demote admin">
+                    <span class="icon-wrapper">
+                        <mat-icon>arrow_downward</mat-icon>
+                    </span>
+                  </button>
+                  <button *ngIf="row.role == 'Admin' && user.role != 'Owner'" class="icon-button w-full" color="primary" mat-raised-button aria-label="Demote admin" disabled>
+                    <span class="icon-wrapper">
+                        <mat-icon>arrow_downward</mat-icon>
+                    </span>
+                  </button>
+                  <button *ngIf="row.role == 'Owner'" class="icon-button w-full" color="primary" mat-raised-button aria-label="Demote owner" disabled>
+                    <span class="icon-wrapper">
+                        <mat-icon>arrow_downward</mat-icon>
+                    </span>
+                  </button>
+                  <!-- current role -->
+                  <span class="p-2 w-full text-center">
+                    {{ row.role }}
+                  </span>
+                  <!-- promotion buttons -->
+                  <button *ngIf="row.role == 'User'" class="icon-button w-full" color="primary" mat-raised-button aria-label="Promote user" (click)="openDialog(row.username, 'Editor')">
+                    <span class="icon-wrapper">
+                        <mat-icon>arrow_upward</mat-icon>
+                    </span>
+                  </button>
+                  <button *ngIf="row.role == 'Editor' && user.role != 'Owner'" class="icon-button w-full" color="primary" mat-raised-button aria-label="Promote editor" disabled>
+                    <span class="icon-wrapper">
+                        <mat-icon>arrow_upward</mat-icon>
+                    </span>
+                  </button>
+                  <button *ngIf="row.role == 'Editor' && user.role == 'Owner'" class="icon-button w-full" color="primary" mat-raised-button aria-label="Promote editor" (click)="openDialog(row.username, 'Admin')">
+                    <span class="icon-wrapper">
+                        <mat-icon>arrow_upward</mat-icon>
+                    </span>
+                  </button>
+                  <button *ngIf="row.role == 'Admin' || row.role == 'Owner'" class="icon-button w-full" color="primary" mat-raised-button aria-label="Promote admin" disabled>
+                    <span class="icon-wrapper">
+                        <mat-icon>arrow_upward</mat-icon>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- mobile display -->
+        <mat-list class="w-full md:hidden lg:hidden xl:hidden 2xl:hidden">
+          <mat-list-item *ngFor="let row of protectedData; let isLast=last">
+            <span class="text-lg w-full text-center" matListItemLine>
+              <strong>{{ row.username }} ({{ row.email }})</strong>
+            </span>
+            <span class="text-xs flex flex-row justify-center items-center" matListItemLine>
+              <!-- demotion buttons -->
+              <button *ngIf="row.role == 'User'" class="icon-button w-full" color="primary" mat-raised-button aria-label="Demote user" disabled>
+                <span class="icon-wrapper">
+                    <mat-icon>arrow_downward</mat-icon>
+                </span>
+              </button>
+              <button *ngIf="row.role == 'Editor'" class="icon-button w-full" color="primary" (click)="openDialog(row.username, 'User')" mat-raised-button aria-label="Demote editor">
+                <span class="icon-wrapper">
+                    <mat-icon>arrow_downward</mat-icon>
+                </span>
+              </button>
+              <button *ngIf="row.role == 'Admin' && user.role == 'Owner'" class="icon-button w-full" color="primary" (click)="openDialog(row.username, 'Editor')" mat-raised-button aria-label="Demote admin">
+                <span class="icon-wrapper">
+                    <mat-icon>arrow_downward</mat-icon>
+                </span>
+              </button>
+              <button *ngIf="row.role == 'Admin' && user.role != 'Owner'" class="icon-button w-full" color="primary" mat-raised-button aria-label="Demote admin" disabled>
+                <span class="icon-wrapper">
+                    <mat-icon>arrow_downward</mat-icon>
+                </span>
+              </button>
+              <button *ngIf="row.role == 'Owner'" class="icon-button w-full" color="primary" mat-raised-button aria-label="Demote owner" disabled>
+                <span class="icon-wrapper">
+                    <mat-icon>arrow_downward</mat-icon>
+                </span>
+              </button>
+              <!-- current role -->
+              <span class="w-full text-center">
+                {{ row.role }}
+              </span>
+              <!-- promotion buttons -->
+              <button *ngIf="row.role == 'User'" class="icon-button w-full" color="primary" mat-raised-button aria-label="Promote user" (click)="openDialog(row.username, 'Editor')">
+                <span class="icon-wrapper">
+                    <mat-icon>arrow_upward</mat-icon>
+                </span>
+              </button>
+              <button *ngIf="row.role == 'Editor' && user.role != 'Owner'" class="icon-button w-full" color="primary" mat-raised-button aria-label="Promote editor" disabled>
+                <span class="icon-wrapper">
+                    <mat-icon>arrow_upward</mat-icon>
+                </span>
+              </button>
+              <button *ngIf="row.role == 'Editor' && user.role == 'Owner'" class="icon-button w-full" color="primary" mat-raised-button aria-label="Promote editor" (click)="openDialog(row.username, 'Admin')">
+                <span class="icon-wrapper">
+                    <mat-icon>arrow_upward</mat-icon>
+                </span>
+              </button>
+              <button *ngIf="row.role == 'Admin' || row.role == 'Owner'" class="icon-button w-full" color="primary" mat-raised-button aria-label="Promote admin" disabled>
+                <span class="icon-wrapper">
+                    <mat-icon>arrow_upward</mat-icon>
+                </span>
+              </button>
+            </span>
+            <span matListItemLine *ngIf="!isLast">
+              <mat-divider class="py-2 w-full" ></mat-divider>
+            </span>
+          </mat-list-item>
+        </mat-list>
       </mat-card-content>
     </mat-card>
   </div>

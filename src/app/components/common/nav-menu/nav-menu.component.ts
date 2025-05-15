@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AuthService } from './../../../services/auth.service';
 import { User, UserService } from './../../../services/user.service';
@@ -10,7 +11,7 @@ import { User, UserService } from './../../../services/user.service';
   templateUrl: './nav-menu.component.html',
   styleUrls: ['./nav-menu.component.scss']
 })
-export class NavMenuComponent {
+export class NavMenuComponent implements OnInit {
    // event emitter to signal when nav menus selection made
    @Output() navMenuSelected = new EventEmitter<string>();
 
@@ -21,36 +22,42 @@ export class NavMenuComponent {
      'path': '',
      'requiresLogin': false,
      'requiresEditor': false,
+     'requiresAdmin': false,
      'requiresOwner': false
    }, {
      'label': 'Publications',
      'path': '/publications',
      'requiresLogin': true,
      'requiresEditor': true,
+     'requiresAdmin': false,
      'requiresOwner': false
    }, {
      'label': 'Authors',
      'path': '/authors',
      'requiresLogin': true,
      'requiresEditor': true,
+     'requiresAdmin': false,
      'requiresOwner': false
    }, {
      'label': 'Genres',
      'path': '/genres',
      'requiresLogin': true,
      'requiresEditor': true,
+     'requiresAdmin': false,
      'requiresOwner': false
    }, {
      'label': 'Narrations',
-     'path': '/narration',
+     'path': '/narrations',
      'requiresLogin': true,
      'requiresEditor': true,
+     'requiresAdmin': false,
      'requiresOwner': false
    }, {
      'label': 'Export',
      'path': '/export',
      'requiresLogin': true,
      'requiresEditor': true,
+     'requiresAdmin': true,
      'requiresOwner': false
    }];
    // observable and local object for user data
@@ -60,7 +67,8 @@ export class NavMenuComponent {
    constructor(
      private _router: Router,
      private _auth: AuthService,
-     private _user: UserService
+     private _user: UserService,
+     private _snackBar: MatSnackBar
    ) { }
  
    /**
@@ -109,6 +117,7 @@ export class NavMenuComponent {
    logout() {
      this._auth.clearStorage();
      this._user.logout();
+     this._snackBar.open('Successfully logged out!', '', { duration: 2000 });
      this._router.navigate(['']);
    }
  

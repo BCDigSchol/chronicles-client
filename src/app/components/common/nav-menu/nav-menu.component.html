@@ -1,14 +1,16 @@
 <nav aria-label="Main">
-    <div class="nav-wrapper w-full h-max flex flex-col justify-around items-center nav-menu p-1">
+    <div class="nav-wrapper w-full h-full flex flex-col justify-around items-center nav-menu">
         <div class="w-full" *ngFor="let menuLink of menuLinks">
             <ng-container *ngIf="menuLink.requiresLogin == false || this.user.loggedIn">
-                <ng-container *ngIf="menuLink.requiresEditor == false || (this.user.role == 'Owner' || this.user.role == 'Editor')">
-                    <ng-container *ngIf="menuLink.requiresOwner == false || this.user.role == 'Editor'">
-                        <div class="w-full my-1">
-                            <button class="w-full" color="primary" mat-raised-button (click)="navigate(menuLink.path)" aria-label="Navigation Button">
-                                {{ menuLink.label }}
-                            </button>
-                        </div>
+                <ng-container *ngIf="menuLink.requiresEditor == false || (this.user.role == 'Owner' || this.user.role == 'Editor' || this.user.role == 'Admin')">
+                    <ng-container *ngIf="menuLink.requiresAdmin == false || (this.user.role == 'Owner' || this.user.role == 'Admin')">
+                        <ng-container *ngIf="menuLink.requiresOwner == false || this.user.role == 'Owner'">
+                            <div class="w-full my-1">
+                                <button class="w-full" color="primary" mat-raised-button (click)="navigate(menuLink.path)" aria-label="Navigation Button">
+                                    {{ menuLink.label }}
+                                </button>
+                            </div>
+                        </ng-container>
                     </ng-container>
                 </ng-container>
             </ng-container>

@@ -17,7 +17,6 @@ Full Stack (MySQL ExpressJS Angular NodeJS) app for browsing the proceedings of 
 
 Current installation is on a Docker setup.
 
-
 Install docker, and docker-compose locally. Then clone this repo and move inside the directory.
 
 ``` sh
@@ -58,7 +57,7 @@ If you have problems and the docker container keeps restarting, the certbot migh
 
 ## Develop Locally
 
-If you want to develop locally, you can ignore the docker instructions for the client. First, make sure to set up the [server](https://github.com/thePortus/icam-server) for local development. Once it is started, make sure that your settings in `src/app/app.settings.ts` points to the local instance. If you use the server's default values, this should already be the case. Then, run `ng serve` inside the `src` directory to run the client locally on port 4200.
+If you want to develop locally, you can ignore the docker instructions for the client. First, make sure to set up the [server](https://github.com/thePortus/chronicles-server) for local development. Once it is started, make sure that your settings in `src/app/app.settings.ts` points to the local instance. If you use the server's default values, this should already be the case. Then, run `ng serve` inside the `src` directory to run the client locally on port 4200.
 
 ## Test
 
@@ -74,7 +73,7 @@ Edit the `src/app.settings.ts` file to change any desired display or site inform
 
 ### How to Change the Fonts
 
-Go to [fonts.google.com](https://fonts.google.com) and select two fonts, one for headers and one for body text. Once you have selected two styles, look under the "Use on the Web" pane in the bottom right. Click the `@import` option and copy the code BETWEEN the two `<style>` tags (but don't copy the style tags themselves). Then, go to `src/styles.scss` and REPLACE line 19 with the new statement (just below where it says 'import google fonts').
+Go to [fonts.google.com](https://fonts.google.com) and select two fonts, one for headers and one for body text. Once you have selected two styles, look under the "Use on the Web" pane in the bottom right. Click the `@import` option and copy the code BETWEEN the two `<style>` tags (but don't copy the style tags themselves). Then, go to `src/styles.scss` and REPLACE the previous line with the new statement (just below where it says 'import google fonts').
 
 Then, at the end of `src/styles-settings.scss`, replate the names of the header/body fonts with your new fonts.
 

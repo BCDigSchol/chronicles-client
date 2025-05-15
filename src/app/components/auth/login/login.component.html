@@ -6,23 +6,19 @@
         <mat-card-content>
         <div class="flex flex-col justify-center items-center">
             <!-- username -->
-            <div>
-            <mat-form-field appearance="fill">
+            <mat-form-field class="w-full" appearance="fill">
                 <mat-label>Username</mat-label>
                 <input matInput type="text" name="username" placeholder="Enter Username" ngModel>
             </mat-form-field>
-            </div>
             <!-- password -->
-            <div>
-            <mat-form-field appearance="fill">
+            <mat-form-field class="w-full" appearance="fill">
                 <mat-label>Password</mat-label>
                 <input matInput type="password" name="password" placeholder="Enter Password" ngModel>
             </mat-form-field>
-            </div>
         </div>
         </mat-card-content>
         <!-- error messages -->
-        <div *ngIf="errorMsgs.length > 0" class="error-msgs flex flex-col justify-center items-start">
+        <div *ngIf="errorMsgs.length > 0" class="text-red p-5 m-5 flex flex-col justify-center items-start">
         <div *ngFor="let errorMsg of errorMsgs">Error: {{ errorMsg }}</div>
         </div>
         <!-- login button -->

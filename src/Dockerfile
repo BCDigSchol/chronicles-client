@@ -18,7 +18,7 @@ RUN ng build --configuration production
 # copy nginx
 FROM nginx:alpine
 # COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=node ./src/dist/icam /usr/share/nginx/html
+COPY --from=node ./src/dist/chronicles /usr/share/nginx/html
 
 # expose the port
 EXPOSE ${WEB_PORT}

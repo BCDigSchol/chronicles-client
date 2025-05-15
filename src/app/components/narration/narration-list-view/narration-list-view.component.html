@@ -1,0 +1,7 @@
+<div class="w-full h-full">
+    <app-narration-list></app-narration-list>
+    <button class="add-button-container m-1" *ngIf="user.role == 'Owner' || user.role == 'Admin' || user.role == 'Editor'" color="primary" routerLink="/narrations/add" mat-fab aria-label="Add new narration">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
+

@@ -1,0 +1,70 @@
+<!-- loading messages -->
+<div *ngIf="loading" class="flex justify-center items-center h-full">
+    <div *ngIf="!loadingError" class="flex flex-col justify-center items-center">
+      <mat-spinner></mat-spinner>
+      <p>Loading</p>
+    </div>
+    <div *ngIf="loadingError" class="flex flex-col justify-center items-center">
+      <mat-icon class="red-text">error</mat-icon>
+      <p class="red-text">Error: problem connecting to server</p>
+    </div>
+  </div>
+  <div *ngIf="!loading" class="w-full h-full flex flex-col justify-start items-center">
+    <div class="w-full">
+      <mat-card class="m-5">
+        <mat-card-content>
+          <div class="flex flex-col justify-start items-center">
+            <!-- title -->
+            <mat-card-title class="w-full card-title">{{ protectedData.genre }}</mat-card-title>
+            <!-- edit / delete buttons -->
+            <div class="w-full flex flex-row justify-center items-center" *ngIf="user.role == 'Owner' || user.role == 'Admin' || user.role == 'Editor'">
+                <button class="w-full" routerLink="{{'/genres/edit/' + protectedData.id}}" color="accent" mat-raised-button aria-label="Edit genre">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button class="icon-button" (click)="deleteItem()" color="warn" mat-raised-button aria-label="Delete genre">
+                    <span class="icon-wrapper">
+                        <mat-icon>delete_forever</mat-icon>
+                    </span>
+                </button>
+            </div>
+            <!-- any notes (optional) -->
+            <div class="w-full flex flex-col justify-start items-center">
+                <div class="w-full my-5 light-border flex flex-row justify-start items-center" *ngIf="(user.role == 'Owner' || user.role == 'Editor') && (protectedData.notes != null && protectedData.notes != '')">
+                    <span class="m-5">
+                        Notes:
+                    </span>
+                    <span class="m-5">
+                        {{ protectedData.notes }}
+                    </span>
+                </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <!-- chairs -->
+      <mat-card *ngIf="protectedData.publications.length > 0" class="m-5">
+        <mat-card-content>
+          <div (click)="toggleDisplay.publications = !toggleDisplay.publications" class="w-full flex flex-row">
+            <span class="flex grow">Publications:</span>
+            <button class="icon-button" type="button" color="primary" mat-raised-button aria-label="Show/Hide Publications">
+                <span class="icon-wrapper">
+                    <mat-icon *ngIf="toggleDisplay.publications">keyboard_arrow_down</mat-icon>
+                    <mat-icon *ngIf="!toggleDisplay.publications">keyboard_arrow_up</mat-icon>
+                </span>
+            </button>
+          </div>
+          <div *ngIf="toggleDisplay.publications" class="w-full">
+            <mat-card routerLink="/publications/{{ publication.id }}" *ngFor="let publication of protectedData.publications">
+              <mat-card-content>
+                <div class="flex flex-col justify-start items-start">
+                  <mat-card-title class="w-full card-title" *ngIf="publication.title !== null && publication.title !== ''">{{ publication.title }}</mat-card-title>
+                  <mat-card-title class="w-full card-title" *ngIf="publication.title == null || publication.title == ''">No Name</mat-card-title>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  

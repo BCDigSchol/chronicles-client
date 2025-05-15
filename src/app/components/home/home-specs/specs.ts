@@ -8,7 +8,21 @@ export const Specs = {
       }
     ],
     // github repositories
-    repositories: [],
+    repositories: [
+      {
+        label: 'Server',
+        link: 'https://github.com/BCDigSchol/chronicles-server',
+        value: 'chronicles-server'
+      }, {
+        label: 'Client',
+        link: 'https://github.com/BCDigSchol/chronicles-client',
+        value: 'chronicles-client'
+      }, {
+        label: 'Data',
+        link: 'https://github.com/BCDigSchol/chronicles-data',
+        value: 'chronicles-data'
+      }
+    ],
     // project dependenceis
     dependencies: {
       frontend: [
@@ -44,7 +58,7 @@ export const Specs = {
           label: '@angular/platform-browser-dynamic'
         }, {
           link: 'https://www.npmjs.com/package/@angular/router',
-          label: '@angular/router": "~13.3.0'
+          label: '@angular/router'
         }, {
           link: 'https://www.npmjs.com/package/rxjs',
           label: 'rxjs'
@@ -54,6 +68,21 @@ export const Specs = {
         }, {
           link: 'https://www.npmjs.com/package/zone.js',
           label: 'zone.js'
+        }
+      ],
+      backend: [
+        {
+          link: 'https://www.npmjs.com/package/cors',
+          label: 'cors'
+        }, {
+          link: 'https://www.npmjs.com/package/express',
+          label: 'express'
+        }, {
+          link: 'https://www.npmjs.com/package/mysql2',
+          label: 'mysql2'
+        }, {
+          link: 'https://www.npmjs.com/package/sequelize',
+          label: 'sequelize'
         }
       ],
       developer: [
