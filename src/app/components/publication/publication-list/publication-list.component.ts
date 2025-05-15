@@ -24,6 +24,12 @@ export class PublicationListComponent implements OnInit {
     keyword: 'subtitle',
     label: 'Subtitle'
   }, {
+    type: 'range',
+    keywordStart: 'startDate',
+    keywordEnd: 'endDate',
+    label: 'Year',
+    min: 1800, max: 2025
+  },{
     keyword: 'genre',
     label: 'Genre'
   }, {
@@ -56,6 +62,8 @@ export class PublicationListComponent implements OnInit {
   filterValues: any = {
     title: '',
     subtitle: '',
+    startYear: null,
+    endYear: null,
     settingName: '',
     settingCategory: '',
     period: '',

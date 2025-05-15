@@ -32,6 +32,7 @@
               <mat-card-title class="w-full card-title">
                 <span>{{ item.title }}</span>
                 <span *ngIf="item.subtitle != ''">: {{ item.subtitle }}</span>
+                <span *ngIf="item.date != ''"> ({{ item.date }})</span>
               </mat-card-title>
               <!-- stats -->
               <mat-grid-list class="flex w-full mt-5 max-sm:text-xs text-base text-center" cols="3" rowHeight="3em">

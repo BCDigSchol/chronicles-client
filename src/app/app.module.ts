@@ -22,6 +22,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
 
 // service imports
 import { InterceptorService } from './services/interceptor.service';
@@ -170,7 +171,8 @@ import { ConfirmUnlinkItemDialog } from './components/publication/publication-ed
     MatDialogModule,
     MatSelectModule,
     MatChipsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatSliderModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

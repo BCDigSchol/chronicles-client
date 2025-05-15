@@ -18,6 +18,7 @@
             <mat-card-title class="w-full card-subtitle">
                 <span>{{ protectedData.title }}</span>
                 <span *ngIf="protectedData.subtitle != ''">: {{ protectedData.subtitle }}</span>
+                <span *ngIf="protectedData.date != ''"> ({{ protectedData.date }})</span>
             </mat-card-title>        
             <!-- edit / delete buttons -->
             <div class="w-full flex flex-row justify-center items-center" *ngIf="user.role == 'Owner' || user.role == 'Admin' || user.role == 'Editor'">
