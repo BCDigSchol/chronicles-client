@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 
 import { ApiService } from './../../services/api.service';
 
-interface jsonHrefs {
+interface fileHrefs {
   publications: any;
   authors: any;
   genres: any;
@@ -27,15 +27,16 @@ export class ExportComponent implements OnInit {
  // property to store data retreived from server
  protectedData: any;
  // stores generated links for jsons created with downloaded server data
- downloadJsonHrefs: jsonHrefs = {
-  publications: [],
-  authors: [],
-  genres: [],
-  narrations: [],
-  authorsOfPublications: [],
-  genresOfPublications: [],
-  narrationsOfPublications: []
- };
+ tableMap = [
+  'publications',
+  'authors',
+  'genres',
+  'narrations',
+  'authorsOfPublications',
+  'genresOfPublications',
+  'narrationsOfPublications'
+ ]
+ format = 'json';
 
  constructor(
    private _api: ApiService,
@@ -47,46 +48,54 @@ export class ExportComponent implements OnInit {
   * download links for JSONs from data, and .loading to false.
   */
  ngOnInit(): void {
-   this._api.getTypeRequest('export/').subscribe({
-    next: (res: any) => {
-      this.protectedData = res;
-      this.generateDownloadJsonUri();
-      this.loading = false;
-    },
-    error: (error: any) => {
-      this.loadingError = true;
-    }
-   });
+   this.loading = false;
  }
 
- /**
-  * Creates an object with links for each of the data tables
-  */
- generateDownloadJsonUri() {
-   var theJSON = null;
-   var uri = null;
+ toggleFormat() {
+    if (this.format === 'json') {
+      this.format = 'csv';
+    }
+    else {
+      this.format = 'json';
+    }
+ }
 
-   theJSON = JSON.stringify(this.protectedData.publications);
-   uri = this.sanitizer.bypassSecurityTrustUrl('data:text/json;charset=UTF-8,' + encodeURIComponent(theJSON));
-   this.downloadJsonHrefs.publications = uri;
-   theJSON = JSON.stringify(this.protectedData.authors);
-   uri = this.sanitizer.bypassSecurityTrustUrl('data:text/json;charset=UTF-8,' + encodeURIComponent(theJSON));
-   this.downloadJsonHrefs.authors = uri;
-   theJSON = JSON.stringify(this.protectedData.genres);
-   uri = this.sanitizer.bypassSecurityTrustUrl('data:text/json;charset=UTF-8,' + encodeURIComponent(theJSON));
-   this.downloadJsonHrefs.genres = uri;
-   theJSON = JSON.stringify(this.protectedData.narrations);
-   uri = this.sanitizer.bypassSecurityTrustUrl('data:text/json;charset=UTF-8,' + encodeURIComponent(theJSON));
-   this.downloadJsonHrefs.narrations = uri;
-   theJSON = JSON.stringify(this.protectedData.authorsOfPublications);
-   uri = this.sanitizer.bypassSecurityTrustUrl('data:text/json;charset=UTF-8,' + encodeURIComponent(theJSON));
-   this.downloadJsonHrefs.authorsOfPublications = uri;
-   theJSON = JSON.stringify(this.protectedData.genresOfPublications);
-   uri = this.sanitizer.bypassSecurityTrustUrl('data:text/json;charset=UTF-8,' + encodeURIComponent(theJSON));
-   this.downloadJsonHrefs.genresOfPublications = uri;
-   theJSON = JSON.stringify(this.protectedData.narrationsOfPublications);
-   uri = this.sanitizer.bypassSecurityTrustUrl('data:text/json;charset=UTF-8,' + encodeURIComponent(theJSON));
-   this.downloadJsonHrefs.narrationsOfPublications = uri;
+ downloadTable(table: any) {
+  const options = this.format === 'csv' ? { responseType: 'text' as 'text' } : {};
+  console.log('Downloading table:', `export?table=${table}&format=${this.format}`);
+  this._api.getTypeRequest(`export?table=${table}&format=${this.format}`, options).subscribe({
+    next: (res: any) => {
+      let dataStr: string;
+      let mimeType: string;
+      let fileExt: string;
+
+      if (this.format === 'json') {
+        dataStr = JSON.stringify(res, null, 2);
+        mimeType = 'application/json';
+        fileExt = 'json';
+      } else {
+        dataStr = typeof res === 'string' ? res : '';
+        mimeType = 'text/csv';
+        fileExt = 'csv';
+      }
+
+
+      const blob = new Blob([dataStr], { type: mimeType });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${table}.${fileExt}`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    },
+    error: (error: any) => {
+      console.log('Error downloading file:', error);
+      this.loadingError = true;
+      this.errMsg = 'Error downloading file';
+    }
+  });
  }
 
 }

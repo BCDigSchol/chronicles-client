@@ -15,19 +15,18 @@
     <div *ngIf="!loading" class="w-full h-full flex justify-center items-start">
       <!-- download links -->
       <div class="export-container h-full flex flex-col justify-center items-start">
-        <button mat-raised-button color="primary"><a [href]="downloadJsonHrefs.publications" download="publications.json">Download publications.json</a></button>
-        <mat-divider class="p-2"></mat-divider>
-        <button mat-raised-button color="primary"><a [href]="downloadJsonHrefs.authors" download="authors.json">Download authors.json</a></button>
-        <mat-divider class="p-2"></mat-divider>
-        <button mat-raised-button color="primary"><a [href]="downloadJsonHrefs.genres" download="genres.json">Download genres.json</a></button>
-        <mat-divider class="p-2"></mat-divider>
-        <button mat-raised-button color="primary"><a [href]="downloadJsonHrefs.narrations" download="narrations.json">Download narrations.json</a></button>
-        <mat-divider class="p-2"></mat-divider>
-        <button mat-raised-button color="primary"><a [href]="downloadJsonHrefs.authorsOfPublications" download="authors-of-publications.json">Download authors-of-publications.json</a></button>
-        <mat-divider class="p-2"></mat-divider>
-        <button mat-raised-button color="primary"><a [href]="downloadJsonHrefs.genresOfPublications" download="genres-of-publications.json">Download genres-of-publications.json</a></button>
-        <mat-divider class="p-2"></mat-divider>
-        <button mat-raised-button color="primary"><a [href]="downloadJsonHrefs.narrationsOfPublications" download="narrations-of-publications.json">Download narrations-of-publications.json</a></button>
+        <div>Format: <mat-slide-toggle (change)="toggleFormat()">{{ format }}</mat-slide-toggle></div>
+        Test
+
+
+
+        <div *ngFor="let table of tableMap">
+          <mat-divider class="p-2"></mat-divider>
+          <button mat-raised-button color="primary" (click)="downloadTable(table)">
+            Download {{ table }}.{{ format }}
+          </button>
+        </div>
+
       </div>
     </div>
   </div>

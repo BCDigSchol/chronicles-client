@@ -22,8 +22,8 @@ export class ApiService {
    * @param url - URL of desired get request
    * @returns The http response object
    */
-  getTypeRequest(url: string) {
-    return this._http.get(`${this.baseUrl}${url}`).pipe(map(res => {
+  getTypeRequest(url: string, options?: any) {
+    return this._http.get(`${this.baseUrl}${url}`, options).pipe(map(res => {
       return res;
     }));
   }
